@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>** Update Form **</title>
+	<link rel="stylesheet" type="text/css" 
+		href="/spring02/resources/myLib/myStyle.css" >
+
 </head>
 <body>
 <h2>** Web MVC2 UpdateForm **</h2>

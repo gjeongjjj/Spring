@@ -14,7 +14,7 @@
 <form action="login" method="post" >
 <table>
 	<tr height="40">
-		<td > <label for="id"> I D </label> </td>
+		<td bgcolor="pink"> <label for="id"> I D </label> </td>
 		<td> <input type="text" name="id" id="id" size="10"> </td>
 	</tr>
 	<tr height="40">

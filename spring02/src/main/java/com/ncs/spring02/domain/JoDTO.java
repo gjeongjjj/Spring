@@ -1,6 +1,6 @@
 package com.ncs.spring02.domain;
 
-import lombok.AllArgsConstructor;
+import lombok.AllArgsConstructor; 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,5 +13,6 @@ public class JoDTO {
 	private String captain;
 	private String project;
 	private String slogan;
+	private String cname; //captainName
 	
 }
