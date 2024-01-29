@@ -49,7 +49,7 @@ public class BoardController {
 	// ** Insert 
 	@RequestMapping(value = "/insertb", method = RequestMethod.POST)
 	public String insert (Model model, BoardDTO dto, RedirectAttributes rttr) {
-		String uri = "redirect:/boardList";
+		String uri = "redirect:boardList";
 		if (service.insert(dto) > 0) {
 			rttr.addFlashAttribute("message", "게시글 등록 완료");
 			model.addAttribute("message", "게시글 등록 완료");
@@ -58,6 +58,36 @@ public class BoardController {
 			rttr.addFlashAttribute("message", "게시글 등록 실패");			
 		}			
 		return uri;
+	} //insert
+	
+	//update
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String boardUpdate(BoardDTO dto, RedirectAttributes rttr) {
+		String uri = "redirect:boardList";
+		
+		if (service.update(dto) > 0) {
+			rttr.addFlashAttribute("message", "업데이트 완료!");
+			
+		} else {
+			uri = "board/boardUpdate";
+			rttr.addFlashAttribute("message", "업데이트 실패...");
+		
+		}
+		return uri;
+	} //update
+	
+	//delete
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public String delete(BoardDTO dto, @RequestParam("seq") Integer seq, RedirectAttributes rttr) {
+		String uri = "redirect:boardList";
+		
+		if (service.delete(seq) > 0) {
+			rttr.addFlashAttribute("message", "게시글 삭제 완료");
+		} else {
+			uri = "board/boardList";
+			rttr.addFlashAttribute("message", "게시글 삭제 완료");
+		}
+		return null;
 	}
 	
 	

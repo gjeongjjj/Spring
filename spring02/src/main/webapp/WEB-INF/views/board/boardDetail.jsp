@@ -53,6 +53,12 @@
 </table>
 <hr>
 
+<c:if test="${loginID == requestScope.boardOne.id }">
+	&nbsp;<a href="boardUpdate">글 수정</a>&nbsp;
+	&nbsp;<a href="/board/delete?seq=${requestScope.boardOne.seq}">글 삭제</a>&nbsp;
+	<hr>
+</c:if>
+
 &nbsp;<a href="/spring02/home">Home</a>&nbsp;
 &nbsp;<a href="javascript:history.go(-1)">이전으로</a>&nbsp;
 

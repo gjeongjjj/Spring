@@ -111,13 +111,36 @@ public class BoardDAO {
 	
 	// ** update
 	public int update(BoardDTO dto) {
-		return 0;
+		sql = "update board set title = ?, content=? where id = ?";
+		
+		try {
+			pst = cn.prepareStatement(sql);
+			pst.setString(1, dto.getTitle());
+			pst.setString(2, dto.getContent());
+			pst.setString(3, dto.getId());
+			
+			return pst.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("** update Exception >" + e.toString());
+			return 0;
+		}
+		
 	}
 	
 	// ** delete
 	public int delete(int seq) {
-		return 0;
-	}
+		sql = "delete from board where seq = ?";
+		try {
+			pst = cn.prepareStatement(sql);
+			pst.setInt(1, seq);
+			
+			return pst.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("** delete Exception > " + e.toString());
+			return 0;
+		}
+	} // delete
 	
 	
 }// class
