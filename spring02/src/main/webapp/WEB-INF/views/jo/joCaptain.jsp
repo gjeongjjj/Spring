@@ -5,13 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** joCaptain **</title>
+<title>** JList+Captain **</title>
 	<link rel="stylesheet" type="text/css" 
 		href="/spring02/resources/myLib/myStyle.css" >
 
 </head>
 <body>
-<h2>** joCaptain **</h2>
+<h2>** JList+Captain **</h2>
 <hr>
 <c:if test="${!empty requestScope.message }">
 	<!-- 리스트 출력하기 전에 메세지가 있다면 그거 출력하기 .  -->

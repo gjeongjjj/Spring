@@ -2,47 +2,26 @@ package com.ncs.spring02.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ncs.spring02.domain.JoDTO;
-import com.ncs.spring02.model.JoDAO;
 
-@Service
-public class JoService {
-	  
-	@Autowired
-	JoDAO dao;
-	
+public interface JoService {
+
 	// joCaptain
-	public List<JoDTO> joCaptain() {
-		return dao.joCaptain();
-	}
-	
+	List<JoDTO> joCaptain();
+
 	// joList
-	public List<JoDTO> joList() {
-		return dao.joList();
-	}
-	
+	List<JoDTO> joList();
+
 	// joDetail
-	public JoDTO joDetail(int jno) {
-		return dao.joDetail(jno);
-	}
-	
+	JoDTO joDetail(int jno);
+
 	// joInsert
-	public int joInsert(JoDTO dto) {
-		return dao.insert(dto);
-	}
-	
+	int joInsert(JoDTO dto);
+
 	// update
-	public int joUpdate(JoDTO dto) {
-		return dao.update(dto);
-	}
-	
+	int joUpdate(JoDTO dto);
+
 	// delete
-	public int joDelete(int jno) {
-		return dao.delete(jno);
-	}
-	
-	
+	int joDelete(int jno);
+
 }

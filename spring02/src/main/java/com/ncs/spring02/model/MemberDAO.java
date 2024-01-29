@@ -27,7 +27,6 @@ import com.ncs.spring02.domain.MemberDTO;
 public class MemberDAO {
 	// ** 전역변수 정의 
 	private static Connection cn = DBConnection.getConnection();
-	private static Statement st;
 	private static PreparedStatement pst; 
 	private static ResultSet rs;
 	private static String sql;
@@ -77,6 +76,43 @@ public class MemberDAO {
 	// 		ArrayList = 배열 (연속된 공간 할당) ,순차처리 빠름 / LinkedList = 데이터 기차묶듯이. 
 	// Map 순서 개념 없음. 키를 이용해서 담아넣는다. 키가 다르면 중복을 허용함.(value) // 키_유효성
 	// Set 순서 없다. 중복 허용하지 않는다. 
+	
+	//-------------------------------
+	public List<MemberDTO> selectJoList(int jno) {
+		sql = "select * from member where jno = ?";
+		List<MemberDTO> joList = new ArrayList<MemberDTO>();
+		
+		try {
+			pst = cn.prepareStatement(sql);
+			pst.setInt(1, jno);
+			rs = pst.executeQuery();
+			
+			if (rs.next()) {
+				do {
+					MemberDTO dto = new MemberDTO();
+					dto.setId(rs.getString(1));
+					dto.setPassword(rs.getString(2));
+					dto.setName(rs.getString(3));
+					dto.setAge(rs.getInt(4));
+					dto.setJno(rs.getInt(5));
+					dto.setInfo(rs.getString(6));
+					dto.setPoint(rs.getDouble(7));
+					dto.setBirthday(rs.getString(8));
+					dto.setRid(rs.getString(9));
+					
+					joList.add(dto);
+				} while (rs.next());
+				return joList;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			System.out.println("**selectJoList Exception => " + e.toString());
+			return null;
+		}
+			
+	}
+	//-------------------------------
 	
 	// ** selectOne   _Call By Value
 	public MemberDTO selectOne(String id) {

@@ -17,6 +17,10 @@
 	<!-- 리스트 출력하기 전에 메세지가 있다면 그거 출력하기 .  -->
 	=> ${requestScope.message }<br><hr>
 </c:if>
+<c:if test="${empty requestScope.message }">
+	<!-- 리스트 출력하기 전에 메세지가 있다면 그거 출력하기 .  -->
+	dddd<br><hr>
+</c:if>
 
 <table border="1" style="width: 100%">
 	<tr height="50">
