@@ -102,10 +102,10 @@ public class BoardController {
 		String uri = "redirect:boardList";
 		if (service.insert(dto) > 0) {
 			rttr.addFlashAttribute("message", "게시글 등록 완료");
-			model.addAttribute("message", "게시글 등록 완료");
 		} else {
 			uri = "board/boardInsert";
-			rttr.addFlashAttribute("message", "게시글 등록 실패");			
+			rttr.addFlashAttribute("message", "게시글 등록 실패");
+			// 여기 rttr이 아니라 addAttribute로 해야됨. 리다이렉트가 아니기 때무에. 
 		}			
 		return uri;
 	} //insert
@@ -123,7 +123,6 @@ public class BoardController {
 		} else {
 			uri = "board/boardUpdate";
 			rttr.addFlashAttribute("message", "업데이트 실패...");
-		
 		}
 		return uri;
 	} //update

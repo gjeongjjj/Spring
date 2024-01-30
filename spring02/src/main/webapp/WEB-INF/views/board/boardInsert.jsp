@@ -4,7 +4,7 @@
     
 <!DOCTYPE html>
 <html>
-<head>
+<head>`
 <meta charset="UTF-8">
 <title>** Spring MVC2 Board Insert **</title>
 	<link rel="stylesheet" type="text/css" 
@@ -30,7 +30,7 @@
 			<td> <input type="text" name="title" id="title"> </td>
 		</tr>
 		<tr height="40">
-			<th> <label for="ctt">Content</label></th>
+			<th> <label for="content">Content</label></th>
 			<!-- <td> <input type="text" name="ctt" id="ctt"> </td> -->
 			<td> <textarea rows="10" cols="30" name="content"></textarea> </td>
 		</tr>

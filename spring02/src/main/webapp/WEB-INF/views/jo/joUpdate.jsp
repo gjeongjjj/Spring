@@ -16,23 +16,23 @@
 <form action="update" method="post">
 <table>
 	<tr height="40">
-		<td bgcolor="CadetBlue"> <label for="jno">JNO</label></td>
+		<td> <label for="jno">JNO</label></td>
 		<td> <input type="number" name="jno" id="jno" value="${requestScope.joOne.jno }" readonly > </td>
 	</tr>
 	<tr height="40">
-		<td bgcolor="CadetBlue"> <label for="jname">JNAME</label></td>
+		<td> <label for="jname">JNAME</label></td>
 		<td> <input type="text" name="jname" id="jname" value="${requestScope.joOne.jname }" > </td>
 	</tr>
 	<tr height="40">
-		<td bgcolor="CadetBlue"> <label for="captain">CAPTAIN</label></td>
+		<td> <label for="captain">CAPTAIN</label></td>
 		<td> <input type="text" name="captain" id="captain" value="${requestScope.joOne.captain }" > </td>
 	</tr>
 	<tr height="40">
-		<td bgcolor="CadetBlue"> <label for="project">PROJECT</label></td>
+		<td > <label for="project">PROJECT</label></td>
 		<td> <input type="text" name="project" id="project" value="${requestScope.joOne.project }" > </td>
 	</tr>
 	<tr height="40">
-		<td bgcolor="CadetBlue"> <label for="slogan">SLOGAN</label></td>
+		<td > <label for="slogan">SLOGAN</label></td>
 		<td> <input type="text" name="slogan" id="slogan" value="${requestScope.joOne.slogan }" > </td>
 	</tr>
 	<tr>

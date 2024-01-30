@@ -20,12 +20,12 @@
 
 <table border="1" style="width: 100%">
 	<tr height="50">
-		<th bgcolor="DarkKhaki">Jno</th>
-		<th bgcolor="DarkKhaki">Jname</th>
-		<th bgcolor="DarkKhaki">Captain</th>
-		<th bgcolor="DarkKhaki">CaptainName</th>
-		<th bgcolor="DarkKhaki">Project</th>
-		<th bgcolor="DarkKhaki">Slogan</th>
+		<th>Jno</th>
+		<th>Jname</th>
+		<th>Captain</th>
+		<th>CaptainName</th>
+		<th>Project</th>
+		<th>Slogan</th>
 	</tr>
 	<c:if test="${!empty requestScope.joCaptain }">
 		<c:forEach var="jo" items="${requestScope.joCaptain }">
