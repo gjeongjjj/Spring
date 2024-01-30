@@ -22,16 +22,17 @@
 <form action="insertb" method="post">
 	<table>
 		<tr height="40">
-			<th bgcolor="Violet"> <label for="id">ID</label></th>
+			<th> <label for="id">ID</label></th>
 			<td> <input type="text" name="id" value="${loginID}" size="20" > </td>
 		</tr>
 		<tr height="40">
-			<th bgcolor="Violet"> <label for="title">Title</label></th>
+			<th> <label for="title">Title</label></th>
 			<td> <input type="text" name="title" id="title"> </td>
 		</tr>
 		<tr height="40">
-			<th bgcolor="Violet"> <label for="ctt">Content</label></th>
-			<td> <input type="text" name="ctt" id="ctt"> </td>
+			<th> <label for="ctt">Content</label></th>
+			<!-- <td> <input type="text" name="ctt" id="ctt"> </td> -->
+			<td> <textarea rows="10" cols="30" name="content"></textarea> </td>
 		</tr>
 		<tr height="40">
 			<td></td>

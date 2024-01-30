@@ -21,27 +21,27 @@
 <table border="1" style="width: 100%">
 	<c:if test="${!empty requestScope.boardOne}">
 		<tr height="50">
-			<th bgcolor="Tan">Seq</th>
+			<th>Seq</th>
 			<td>${requestScope.boardOne.seq }</td>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">Title</th>
+			<th>Title</th>
 			<td>${requestScope.boardOne.title }</td>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">I D</th>
+			<th>I D</th>
 			<td>${requestScope.boardOne.id }</td>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">Content</th>
+			<th>Content</th>
 			<td>${requestScope.boardOne.content }</td>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">RegDate</th>
+			<th>RegDate</th>
 			<td>${requestScope.boardOne.regdate }</td>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">조회수</th>
+			<th>조회수</th>
 			<td>${requestScope.boardOne.cnt }</td>
 		</tr>
 	</c:if>
@@ -53,15 +53,24 @@
 </table>
 <hr>
 
+<!-- 로그인 한 경우에는 새 글 등록 -->
+<c:if test="${!empty sessionScope.loginID }">
+	&nbsp;<a href="boardInsert">새글 등록</a>&nbsp;
+	<!-- 댓글 등록을 위해 부모글의 root, step, indent 값이 필요하기 때문에
+		 서버로 보내주어야 함 ( 쿼리스트링으로 작성 )) -->
+	&nbsp;<a href="replyInsert?root=${boardOne.root}&step=${boardOne.step}&indent=${boardOne.indent}">
+					답글 등록</a>&nbsp;
+</c:if>
+
+<!-- 로그인 id와 글쓴이 id가 도일하면 수정, 삭제 가능.  -->
 <c:if test="${loginID == requestScope.boardOne.id }">
-	&nbsp;<a href="boardUpdate">글 수정</a>&nbsp;
-	&nbsp;<a href="/board/delete?seq=${requestScope.boardOne.seq}">글 삭제</a>&nbsp;
+	&nbsp;<a href="detail?jCode=U&seq=${requestScope.boardOne.seq }">글 수정</a>&nbsp;
+	&nbsp;<a href="delete?seq=${requestScope.boardOne.seq}">글 삭제</a>&nbsp;
 	<hr>
 </c:if>
 
 &nbsp;<a href="/spring02/home">Home</a>&nbsp;
 &nbsp;<a href="javascript:history.go(-1)">이전으로</a>&nbsp;
-
 
 </body>
 </html>

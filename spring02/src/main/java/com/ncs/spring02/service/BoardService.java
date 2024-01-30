@@ -15,6 +15,10 @@ public interface BoardService {
 	// ** insert
 	public int insert(BoardDTO dto);
 	
+	// ** replyInsert
+	public int rinsert(BoardDTO dto);
+	
+	
 	// ** update
 	public int update(BoardDTO dto);
 	

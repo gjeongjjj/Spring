@@ -7,9 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>** Spring MVC2 BoardList **</title>
-	<link rel="stylesheet" type="text/css" 
+<!-- 	<link rel="stylesheet" type="text/css" 
 		href="/spring02/resources/myLib/myStyle.css" >
-
+ -->
 </head>
 <body>
 <h2>** Spring MVC2 BoardList **</h2>
@@ -19,7 +19,7 @@
 </c:if>
 
 <table border="1" style="width: 100%">
-	<tr bgcolor="DeepSkyBlue">
+	<tr>
 		<th>Seq</th>
 		<th>Title</th>
 		<th>I D</th>
@@ -34,13 +34,19 @@
 				<!-- jstl 표현식은 getter포함되어 있어서 굳이 getter안써도 됨.  -->
 				<td>${bo.seq}</td>
 				<td>
+					<!-- 답글 등록 후 Title 출력 전에 들여쓰기 추가 -->
+					<c:if test="${bo.indent > 0 }">
+						<c:forEach begin="1" end="${bo.indent }" >
+							<span>&nbsp;&nbsp;</span>
+						</c:forEach>
+						<span style="color: coral;">re:</span>
+					</c:if>
 					<c:if test="${!empty loginID }">
 						<a href="detail?jCode=D&seq=${bo.seq}">${bo.title}</a>
 					</c:if>
 					<c:if test="${empty loginID }">
 						${bo.title}
 					</c:if>
-					
 				</td>
 				<td>${bo.id}</td>
 				<td>${bo.regdate}</td>

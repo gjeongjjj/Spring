@@ -21,27 +21,28 @@
 <form action="update" method="post">
 	<table border="1" style="width: 100%">
 		<tr height="50">
-			<th bgcolor="Tan">Seq</th>
-			<td><input type="number" name="jno" id="jno" value="${requestScope.boardOne.seq }" readonly ></td>
+			<th>Seq</th>
+			<td class="gray"><input type="number" name="seq" id="seq" value="${requestScope.boardOne.seq }" readonly ></td>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">Title</th>
-			<td><input type="text" name="title" id="title" ></td>
+			<th>Title</th>
+			<td><input type="text" name="title" id="title" value="${requestScope.boardOne.title }" ></td>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">I D</th>
-			<td><input type="text" name="title" id="title" value="${requestScope.boardOne.id }" readonly></td>
+			<th>I D</th>
+			<td class="gray"><input type="text" name="id" id="id" value="${requestScope.boardOne.id }" readonly></td>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">Content</th>
-			<td><input type="text" name="content" id="content" ></td>
+			<th>Content</th>
+			<td> <textarea rows="10" cols="30" name="content"></textarea> </td>
+			<%-- <td><input type="text" name="content" value="${requestScope.boardOne.content }"></td> --%>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">RegDate</th>
+			<th>RegDate</th>
 			<td>${requestScope.boardOne.regdate }</td>
 		</tr>
 		<tr height="50">
-			<th bgcolor="Tan">조회수</th>
+			<th>조회수</th>
 			<td>${requestScope.boardOne.cnt }</td>
 		</tr>
 		<tr>

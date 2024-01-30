@@ -13,6 +13,10 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	BoardDAO dao;
+	@Override
+	public int rinsert(BoardDTO dto) {
+		return dao.rinsert(dto);
+	}
 
 	@Override
 	public List<BoardDTO> selectList() {
