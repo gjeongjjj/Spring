@@ -100,8 +100,9 @@ public class BoardController {
 	@RequestMapping(value = "/insertb", method = RequestMethod.POST)
 	public String insert (Model model, BoardDTO dto, RedirectAttributes rttr) {
 		String uri = "redirect:boardList";
+//		System.out.println(dto);
 		if (service.insert(dto) > 0) {
-			rttr.addFlashAttribute("message", "게시글 등록 완료");
+			rttr.addFlashAttribute("message", "게시글 < " + dto.getTitle() + " > 등록 완료");
 		} else {
 			uri = "board/boardInsert";
 			rttr.addFlashAttribute("message", "게시글 등록 실패");
@@ -129,14 +130,16 @@ public class BoardController {
 	
 	//delete
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String delete(BoardDTO dto, @RequestParam("seq") Integer seq, RedirectAttributes rttr) {
+	public String delete(BoardDTO dto, RedirectAttributes rttr) {
 		String uri = "redirect:boardList";
+		String nn = dto.getTitle();
+//		System.out.println(dto);
 		
-		if (service.delete(seq) > 0) {
-			rttr.addFlashAttribute("message", "게시글 삭제 완료");
+		if (service.delete(dto) > 0) {
+			rttr.addFlashAttribute("message", "게시글 < " + nn + " > 삭제 완료");
 		} else {
 			uri = "board/boardList";
-			rttr.addFlashAttribute("message", "게시글 삭제 완료");
+			rttr.addFlashAttribute("message", "게시글 삭제 실패");
 		}
 		return uri;
 	}

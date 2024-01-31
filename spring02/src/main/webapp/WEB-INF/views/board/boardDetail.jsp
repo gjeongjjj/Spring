@@ -65,7 +65,7 @@
 <!-- 로그인 id와 글쓴이 id가 도일하면 수정, 삭제 가능.  -->
 <c:if test="${loginID == requestScope.boardOne.id }">
 	&nbsp;<a href="detail?jCode=U&seq=${requestScope.boardOne.seq }">글 수정</a>&nbsp;
-	&nbsp;<a href="delete?seq=${requestScope.boardOne.seq}">글 삭제</a>&nbsp;
+	&nbsp;<a href="delete?seq=${boardOne.seq}&root=${boardOne.root}&title=${boardOne.title}">글 삭제</a>&nbsp;
 	<hr>
 </c:if>
 

@@ -26,7 +26,6 @@ th {
 tbody tr:hover {
   background-color: #d3d3d3;
   opacity: 0.9;
-  cursor: pointer;
 }
 a {
   color: inherit;
@@ -70,6 +69,14 @@ textarea {
 .gray{
 	background: #d3d3d3;
 }
+
+/* Error Message */
+.eMessage {
+	color: red;
+	font-size: x-small; 
+	font-style: italic;
+}
+
 
 
 /* //////////////////////// */

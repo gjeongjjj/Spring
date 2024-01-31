@@ -161,7 +161,7 @@ public class BoardDAO {
 	public int stepUpdate(BoardDTO dto) {
 		sql = "update board set step = step + 1 where root = ? and step >= ? "
 				+ "and seq <> (select * from (select ifNull(max(seq),0) from board) as temp)";
-		
+			// 인덴트가 0이면 안됨. 
 		try {
 			pst = cn.prepareStatement(sql);
 			pst.setInt(1, dto.getRoot());
@@ -198,11 +198,23 @@ public class BoardDAO {
 	}
 	
 	// ** delete
-	public int delete(int seq) {
-		sql = "delete from board where seq = ?";
+	// => seq로 삭제
+	// => 답글 추가 후 : 원글과 답글 구분
+	//	 -> 원글 : where root = ? (root에 맞는 숫자 글 다 삭제. )
+	//   -> 답글 : ~ where seq=?
+	public int delete(BoardDTO dto) {
+		
+		if (dto.getSeq() == dto.getRoot()) {
+			// 원글 이라는 의미 -> 원글 삭제
+			sql = "delete from board where root = ?";
+		} else {
+			// 답글 삭제
+			sql = "delete from board where seq = ?";
+		}
+		
 		try {
 			pst = cn.prepareStatement(sql);
-			pst.setInt(1, seq);
+			pst.setInt(1, dto.getSeq());
 			
 			return pst.executeUpdate();
 		} catch (Exception e) {

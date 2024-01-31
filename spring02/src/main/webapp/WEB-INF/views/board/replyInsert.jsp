@@ -7,22 +7,26 @@
 <head>
 <meta charset="UTF-8">
 <title>** Spring MVC2 Reply Insert **</title>
+	<link rel="stylesheet" type="text/css" 
+		href="/spring02/resources/myLib/myStyle.css" >
+
 </head>
 <body>
 <h2>** Spring MVC2 Reply Insert **</h2>
+<h3 style="text-align: center" > ${sessionScope.loginID} 님은 답글을 다는 중이에요!!!!!</h3>
 <form action="replyInsert" method="post">
 	<table>
 		<tr height="40">
-			<th bgcolor="lime">I D</th>
+			<th>I D</th>
 			<td><input type="text" name="id"
 				value="${sessionScope.loginID}" readonly size="20"></td>
 		</tr>
 		<tr height="40">
-			<th bgcolor="lime">Title</th>
+			<th>Title</th>
 			<td><input type="text" name="title" size="50"></td>
 		</tr>
 		<tr height="40">
-			<th bgcolor="lime">Content</th>
+			<th>Content</th>
 			<td><textarea rows="5" cols="50" name="content"></textarea></td>
 		</tr>
 		<!-- 부모글의 root, step, indent 값이 있어야 댓글을 등록할 수 있음 
