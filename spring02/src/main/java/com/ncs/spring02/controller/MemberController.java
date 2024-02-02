@@ -1,51 +1,45 @@
 package com.ncs.spring02.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ncs.spring02.domain.MemberDTO;
 import com.ncs.spring02.service.MemberService;
 
-
-//** IOC / DI 적용 ( @Component 의 세분화 ) 
-//=> 스프링 프레임워크에서는 클래스들을 기능별로 분류하기위해 @ 을 추가함.
-//=>  @Controller 
-// -> 사용자 요청을 제어하는 Controller 클래스
-// -> DispatcherServlet이 해당 객체를 Controller객체로 인식하게 해줌.    
-// -> interface Controller 의 구현의무 없어짐
-// -> 이로인해 메서드 handleRequest()의 오버라이딩 의무 없어짐
-// -> 이로인해 메서드명, 매개변수, 리턴타입(ModelAndView, String, void 중 선택)에 자유로워짐. 
-// -> 그리고 클래스와 메서드 단위로 매핑이 가능한 @RequestMapping 사용가능
-// -> 그러므로 하나의 컨트롤러 안에 여러개의 맵핑 메서드의 구현이 가능해짐. 
-// -> 그래서 주로 테이블(엔티티) 단위로 작성함. (MemberController.java)
-//
-//=>  @Service : 비즈니스로직을 담당하는 Service 클래스
-//=>  @Repository : DB 연동을 담당하는 DAO 클래스
-//       DB 연동과정에서 발생하는 예외를 변환 해주는 기능 추가
-
-
-
 @Controller
-@RequestMapping(value = "/member" )
+@RequestMapping(value = "/member")
 public class MemberController {
-	
+
 	@Autowired(required = false)
 	MemberService service;
-	
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
 	// ** ID 중복확인
 	@GetMapping("/idDupCheck")
-	public void idDupCheck(@RequestParam("id") String id , Model model) {
+	public void idDupCheck(@RequestParam("id") String id, Model model) {
 		// 1) newID 존재여부 확인
-		
+
 		if (service.selectOne(id) != null) {
 			// => 사용 불가능
 			model.addAttribute("idUse", "F");
@@ -53,47 +47,42 @@ public class MemberController {
 			// => 사용 가능
 			model.addAttribute("idUse", "T");
 		}
-		
-		
-		
-		
+
 	}// idDupCheck
-	
-	
-	
+
 	// mlist
-	@RequestMapping(value = {"/memberList"}, method = RequestMethod.GET)	
+	@RequestMapping(value = { "/memberList" }, method = RequestMethod.GET)
 	public void mList(Model model) {
 		model.addAttribute("banana", service.selectList());
 	}
-	
+
 	// loginForm
-	
+
 //	// => ver01. return String
 //	public String loginForm(Model model) {
 //		return "member/loginForm";
 //	}// loginForm
-	
+
 	// => ver02. return void
-	// => vireName 생략 : 
-	//		- 요청명과 동일한 viewName 을 찾음.
-	//		- "/WEB-INF/views/member/loginForm.jsp" 가 완성됨.
-	
-	@RequestMapping(value = "loginForm", method = RequestMethod.GET)
+	// => vireName 생략 :
+	// - 요청명과 동일한 viewName 을 찾음.
+	// - "/WEB-INF/views/member/loginForm.jsp" 가 완성됨.
+
+	@GetMapping("loginForm")
 	public void loginForm() {
-		
+
 	}// loginForm
-	
-	//login
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+
+	// login
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@PostMapping("login")
 	public String login(HttpSession session, Model model, MemberDTO dto) {
 //		=> 매핑 메서드의 인지객체 와 동일한 컬럼명의 값은 자동으로 할당한다. 
 //			아래 구문은 필요없음.
 //		String id = request.getParameter("id");
 //		dto.setId(id);
 //		String password = request.getParameter("Password");
-				
-		
+
 		// 1. 요청분석
 		// => requst 로 전달되는 id, password 처리:
 		// 매서드 매개변수로 MemberDTO 를 정의해주면 자동 처리
@@ -107,9 +96,11 @@ public class MemberController {
 		// => 존재하면 Password 확인
 		// => 성공: id, name은 session에 보관, home 으로
 		// => 실패: 재로그인 유도
-		
+
 		dto = service.selectOne(dto.getId());
-		if ( dto != null && dto.getPassword().equals(password)) {
+		// => PasswordEncoder 적용
+		// if ( dto != null && dto.getPassword().equals(password)) {
+		if (dto != null && passwordEncoder.matches(password, dto.getPassword())) {
 			// 성공
 			session.setAttribute("loginID", dto.getId());
 			session.setAttribute("loginName", dto.getName());
@@ -120,126 +111,214 @@ public class MemberController {
 		}
 		return uri;
 	} // login
-	
-	//logout
+
+	// logout
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
-	} //logout
-	
+	} // logout
+
 	// ** Member Detail
 	// => 단일 Parameter 의 경우 @RequestParam("...") 활용
-	//    String jCode = request.getParameter("jCode")과 동일
-	//    단, 해당하는 Parameter가 없으면 400 오류 
-	//    그러므로 detail 요청에도 ? jCode=D를 추가함. 
+	// String jCode = request.getParameter("jCode")과 동일
+	// 단, 해당하는 Parameter가 없으면 400 오류
+	// 그러므로 detail 요청에도 ? jCode=D를 추가함.
 	@RequestMapping(value = "detail", method = RequestMethod.GET)
-	public String detail(HttpSession session, Model model, @RequestParam("jCode") String jCode ) {
+	public String detail(HttpSession session, Model model, @RequestParam("jCode") String jCode) {
 		// 1. 요청분석
 		// => id : session에서 get
-		
+
 		String id = (String) session.getAttribute("loginID");
 		String uri = "member/memberDetail"; // detail
-		
+
 		// => update 요청 확인 후 uri 수정
 		if ("U".equals(jCode)) {
 			uri = "member/updateForm";
 		}
-		
+
 		// 2. Service & 결과 처리
 		model.addAttribute("apple", service.selectOne(id));
 		return uri;
-		
-	}// detail
 
+	}// detail
 	
-	
+	//=============================================================================
+
 	// joinForm
 	@RequestMapping(value = "joinForm", method = RequestMethod.GET)
 	public void joinForm() {
 	}// joinForm
-	
+
 	// join
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String join(Model model, MemberDTO dto) {
+	public String join(HttpServletRequest request, Model model, MemberDTO dto) throws IOException {
 		// 1. 요청 분석
-		// => 이전 : 한글처리 , request 값-> dto에 set
-		// => 스프링 : 한글은 filter, request 처리는 매개변수로 자동화. 
-		String uri = "member/loginForm"; // 성공시
-		
+		String uri = "member/loginForm"; // 성공 시
+
+		// 1) 물리적 실제저장 위치 확인
+		// 1-1) 현재 웹어플리케이션의 실행위치
+		String realPath = request.getRealPath("/");
+		System.out.println("** realPath => " + realPath);
+
+		// 1.2) realPath를 이용해서 물리적 저장위치 (file1) 확인
+		if (realPath.contains(".eclipse.")) // 개발중
+			realPath = "C:\\jgj\\StudyS\\Spring\\spring02\\src\\main\\webapp\\resources\\uploadImages\\";
+		else
+			realPath = "resources\\uploadImages\\";
+
+		// 1.3) 폴더 만들기 : 폴더 자체가 존재하지 않을수도 있다는 경우를 가정(uploadImages)
+		File file = new File(realPath);
+		if (!file.exists()) {
+			// => 저장 폴더가 존재하지 않는경우 만들어준다
+			file.mkdir();
+		}
+
+		// --------------------------------------------
+		// ** File Copy 하기 (IO Stream)
+		// => 기본이미지(cat04.gif) 가 uploadImages 폴더에 없는경우 기본폴더(images) 에서 가져오기
+		// => IO 발생: Checked Exception 처리
+		File f1 = new File(realPath + "basicman4.png"); // uploadImages 폴더에 파일존재 확인을 위함
+		if (!f1.isFile()) { // 존재하지않는 경우(파일존재의 여부를 확인)
+			String basicImagePath = "C:\\jgj\\StudyS\\Spring\\spring02\\src\\main\\webapp\\resources\\images\\basicman4.png";
+			FileInputStream fi = new FileInputStream(new File(basicImagePath));
+			// => basicImage 읽어 파일 입력바이트스트림 생성
+			FileOutputStream fo = new FileOutputStream(f1);
+			// => 목적지 파일(realPath+"basicman4.png") 출력바이트스트림 생성
+			FileCopyUtils.copy(fi, fo);
+		}
+		// --------------------------------------------
+
+		// --------------------------------------------
+		// ** MultipartFile
+		// => 업로드한 파일에 대한 모든 정보를 가지고 있으며 이의 처리를 위한 메서드를 제공한다.
+		// -> String getOriginalFilename(),
+		// -> void transferTo(File destFile),
+		// -> boolean isEmpty()
+
+		// 1.4) 저장경로 완성
+		// => 기본 이미지 저장
+		String file1 = "", file2 = "basicman1.jpg";
+
+		MultipartFile uploadfilef = dto.getUploadfilef();
+		if (uploadfilef != null && !uploadfilef.isEmpty()) {
+			// => image_File 을 선택함
+			// 1.4.1) 물리적위치 저장 (file1)
+			file1 = realPath + uploadfilef.getOriginalFilename(); // 저장경로(relaPath+화일명) 완성
+			uploadfilef.transferTo(new File(file1)); // 해당경로에 저장(붙여넣기)
+
+			// 1.4.2) Table 저장경로 완성 (file2)
+			file2 = uploadfilef.getOriginalFilename();
+		}
+		dto.setUploadfile(file2);
+		// --------------------------------------------
+
 		// 2. Service & 결과
+		// => PasswordEncoder 적용
+		// passwordEncoder.encode(dto.getPassword()) -> 변환된 값
+		// 변환된 값을 넣어준다.
+		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+
 		if (service.insert(dto) > 0) {
 			// 성공
 			model.addAttribute("message", "회원가입 성공(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ 로그인 후 이용하세요 !!");
 		} else {
-			// 실패 : 재가입 유도 
+			// 실패 : 재가입 유도
 			uri = "member/loginForm";
 			model.addAttribute("message", "회원가입 실패. 다시 시도해주세요. ");
-			
+
 		}
 		return uri;
 	}// join
-	
-	
+
+	// Password 수정 (PasswordEncorder 추가 후 )
+	@GetMapping("/pwUpdate")
+	public void pwUpdate() {
+		// View_name 생략
+	}
+
+	// ** PasswordUpdate
+	// => Service, DAO 에 pwUpdate(dto) 메서드 추가
+	// => 성공 : 세션 무효화, 로그인 창으로
+	// 실패 : pwUpdate로 (재수정 유도)
+	@PostMapping("/pwUpdate")
+	public String pwUpdate(HttpSession session, MemberDTO dto, Model model) {
+		// 1) 요청분석
+		// => id : session 에서
+		// password : 암호화
+		dto.setId((String) session.getAttribute("loginID"));
+		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+		String uri = "member/loginForm"; // 성공시
+
+		// 2) Service
+		if (service.pwUpdate(dto) > 0) {
+			// => 성공
+			session.invalidate();
+			model.addAttribute("message", "비밀번호가 수정 성공, 재로그인 해주세요.");
+		} else {
+			// => 실패
+			model.addAttribute("message", "비밀번호가 수정 실패!! 다시 하세요. ");
+			uri = "member/pwUpdate";
+		}
+		return uri;
+	} // pwUpdate
+
 	// update
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(HttpSession session, Model model, MemberDTO dto) {
 		// 1. 요청 분석
 		// => 성공 : MemberDetail
 		// => 실패 : 다시 updateForm으로.
-		// => 두 경우 모두 출력하려면 dto 객체의 값("apple")이 필요하므로 보관. 
-		
+		// => 두 경우 모두 출력하려면 dto 객체의 값("apple")이 필요하므로 보관.
+
 		String uri = "member/memberDetail"; // 성공시
 		model.addAttribute("apple", dto);
-		
+
 		// 2. Service & 결과
 		if (service.update(dto) > 0) {
 			// 성공
 			model.addAttribute("message", "회원 정보 수정 성공(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ");
-			// => name을 수정할수도 있으므로 loginName을 수정해준다. 
+			// => name을 수정할수도 있으므로 loginName을 수정해준다.
 			session.setAttribute("loginName", dto.getName());
-			
+
 		} else {
-			// 실패 : 재가입 유도 
+			// 실패 : 재가입 유도
 			uri = "member/updateForm";
 			model.addAttribute("message", "회원 정보 수정 실패 !! 다시 하세요!!");
-			
+
 		}
 		return uri;
 	}// update
 
-	
 	// delete
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	public String delete(HttpSession session, Model model, RedirectAttributes rttr) {
 		// 1. 요청분석
 		// => id : session에서 get
 		// => delete & session 처리
-		
+
 		String id = (String) session.getAttribute("loginID");
-		String uri = "redirect:/home"; 
-		
+		String uri = "redirect:/home";
+
 		// 2. Service & 결과 처리
 		if (service.delete(id) > 0) {
 			// 성공
 //			model.addAttribute("message", "탈퇴 성공 ~! ( ﾟдﾟ)つ Bye");
 			// => requestScope의 message를 redirect시에도 유지하려면
-			//    session에 보관했다가 사용 후에는 삭제해야함
-			//    session에 보관 후 redirect되어진 요청 처리시에 requestScope에 옮기고, 
-			//    session의 message는 삭제
+			// session에 보관했다가 사용 후에는 삭제해야함
+			// session에 보관 후 redirect되어진 요청 처리시에 requestScope에 옮기고,
+			// session의 message는 삭제
 			rttr.addFlashAttribute("message", "탈퇴 성공 ~! ( ﾟдﾟ)つ Bye");
 			session.invalidate();
 		} else {
 			rttr.addFlashAttribute("message", "탈퇴 실패 !! 관리자에게 연락하세요.");
 //			model.addAttribute("message", "탈퇴 실패 !! 관리자에게 연락하세요.");
-			
+
 		}
 		return uri;
-		
+
 	}// delete
 
-	
-	
 }// class
 
 //** Spring 의 redirect ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -340,4 +419,3 @@ public class MemberController {
 
 // -> Logger 사용과의 차이점 : "{}" 지원안됨 , 호출명 log
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-

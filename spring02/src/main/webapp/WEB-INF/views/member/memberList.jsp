@@ -21,7 +21,7 @@
 <table border="1" style="width: 100%">
 	<tr bgcolor="DeepSkyBlue">
 		<th>ID</th>
-		<th>Password</th>
+		<!-- <th>Password</th> -->
 		<th>Name</th>
 		<th>Age</th>
 		<th>Jno</th>
@@ -29,6 +29,7 @@
 		<th>Point</th>
 		<th>Birthday</th>
 		<th>추천인</th>
+		<th>Image</th>
 	</tr>
 	<c:if test="${!empty requestScope.banana }">
 		<!-- 있으면 출력 없으면 안출력 -->
@@ -37,7 +38,7 @@
 			<tr>
 				<!-- jstl 표현식은 getter포함되어 있어서 굳이 getter안써도 됨.  -->
 				<td>${ba.id}</td>
-				<td>${ba.password}</td>
+				<%-- <td>${ba.password}</td> --%>
 				<td>${ba.name}</td>
 				<td>${ba.age}</td>
 				<td>${ba.jno}</td>
@@ -45,6 +46,8 @@
 				<td>${ba.point}</td>
 				<td>${ba.birthday}</td>
 				<td>${ba.rid}</td>
+				<td> <img alt="myImage" src="/spring02/resources/uploadImages/${ba.uploadfile}"
+						  width="50" height="70"> </td>
 			</tr>
 		</c:forEach>
 	</c:if>

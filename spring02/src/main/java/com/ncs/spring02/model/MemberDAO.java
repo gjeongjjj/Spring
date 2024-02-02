@@ -31,7 +31,6 @@ public class MemberDAO {
 	private static ResultSet rs;
 	private static String sql;
 	
-	
 	// ** selectList
 	public List<MemberDTO> selectList() {
 		sql = "select * from member";
@@ -56,6 +55,7 @@ public class MemberDAO {
 					dto.setPoint(rs.getDouble(7));
 					dto.setBirthday(rs.getString(8));
 					dto.setRid(rs.getString(9));
+					dto.setUploadfile(rs.getString(10));
 					
 					list.add(dto);
 				} while (rs.next());
@@ -99,6 +99,7 @@ public class MemberDAO {
 					dto.setPoint(rs.getDouble(7));
 					dto.setBirthday(rs.getString(8));
 					dto.setRid(rs.getString(9));
+					dto.setUploadfile(rs.getString(10));
 					
 					joList.add(dto);
 				} while (rs.next());
@@ -134,6 +135,7 @@ public class MemberDAO {
 				dto.setPoint(rs.getDouble(7));
 				dto.setBirthday(rs.getString(8));
 				dto.setRid(rs.getString(9));
+				dto.setUploadfile(rs.getString(10));
 				
 				return dto;
 			} else { 
@@ -151,7 +153,7 @@ public class MemberDAO {
 	// ** insert 
 	// => 모든 컬럼 입력
 	public int insert(MemberDTO dto) {
-		sql = "insert into member values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		sql = "insert into member values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			pst = cn.prepareStatement(sql);
@@ -164,6 +166,7 @@ public class MemberDAO {
 			pst.setDouble(7, dto.getPoint());
 			pst.setString(8, dto.getBirthday());
 			pst.setString(9, dto.getRid());
+			pst.setString(10, dto.getUploadfile());
 			
 			return pst.executeUpdate();
 		} catch (Exception e) {
@@ -175,20 +178,20 @@ public class MemberDAO {
 	// ** update
 	// id(P.Key) 제외한 모든 컬럼 수정
 	public int update(MemberDTO dto) {
-		sql = "update member set password = ?, name = ?, age = ?, jno = ?, info = ?"
+		sql = "update member set name = ?, age = ?, jno = ?, info = ?"
 				+ ", point = ?, birthday = ?, rid = ? where id = ?";
 		
 		try {
 			pst = cn.prepareStatement(sql);
-			pst.setString(1, dto.getPassword());
-			pst.setString(2, dto.getName());
-			pst.setInt(3, dto.getAge());
-			pst.setInt(4, dto.getJno());
-			pst.setString(5, dto.getInfo());
-			pst.setDouble(6, dto.getPoint());
-			pst.setString(7, dto.getBirthday());
-			pst.setString(8, dto.getRid());
-			pst.setString(9, dto.getId());
+			/* pst.setString(1, dto.getPassword()); */
+			pst.setString(1, dto.getName());
+			pst.setInt(2, dto.getAge());
+			pst.setInt(3, dto.getJno());
+			pst.setString(4, dto.getInfo());
+			pst.setDouble(5, dto.getPoint());
+			pst.setString(6, dto.getBirthday());
+			pst.setString(7, dto.getRid());
+			pst.setString(8, dto.getId());
 			
 			return pst.executeUpdate();
 			
@@ -197,6 +200,24 @@ public class MemberDAO {
 			return 0;
 		}
 	} // update
+	
+	// ** passwordUpdate
+	public int pwUpdate(MemberDTO dto) {
+		sql = "update member set password=? where id=?";
+		try {
+			pst = cn.prepareStatement(sql);
+			
+			pst.setString(1, dto.getPassword());
+			pst.setString(2, dto.getId());
+			
+			return pst.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("** passwordUpdate Exception > " + e.toString());
+			return 0;
+		}
+	} //pwUpdate
+	
 	
 	// ** delete
 	public int delete(String id ) {

@@ -22,10 +22,13 @@
 		<!-- readonly 서버로 전송( 권장)
 		disabled 서버로 전송되지 않음. -->
 	</tr>
-	<tr height="40">
+	
+	<!-- PasswordEncoder 적용 후 분리함.  -->
+	<%-- <tr height="40">
 		<td bgcolor="RosyBrown"> <label for="password"> PASSWORD </label> </td>
 		<td> <input type="password" name="password" id="password" value="${requestScope.apple.password }" size="20"> </td>
-	</tr>
+	</tr> --%>
+	
 	<tr height="40">
 		<td bgcolor="RosyBrown"> <label for="name"> NAME </label> </td>
 		<td> <input type="text" name="name" id="name" value="${requestScope.apple.name }" size="20"> </td>
@@ -77,6 +80,8 @@
 </form>
             
 <hr>
+&nbsp; <a href="pwUpdate">Password 수정</a>&nbsp; 
+
 <c:if test="${!empty requestScope.message }">
 	=> ${requestScope.message } <br>
 </c:if>

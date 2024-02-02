@@ -231,8 +231,25 @@ function inCheck() {
 </head>
 <body>
 	<h2>** Web MVC2 JoinForm **</h2>
+	
+	<!--  ** FileUpLoad Form **
+=> form 과 table Tag 사용시 주의사항 : form 내부에 table 사용해야함
+   -> form 단위작업시 인식안됨
+   -> JQ 의 serialize, FormData 의 append all 등 
 
-	<form action="join" method="post">
+=> method="Post" : 255 byte 이상 대용량 전송 가능 하므로
+
+=> <form enctype="속성값">
+   <form> 태그의 데이터 (input 의 value)가 서버로 제출될때 해당 데이터가 인코딩되는 방법을 명시함.  
+ 
+=> enctype="multipart/form-data" : 화일 upload 를 가능하게 해줌 
+   ** multipart/form-data는 파일업로드가 있는 입력양식요소에 사용되는 enctype 속성의 값중 하나이고, 
+       multipart는 폼데이터가 여러 부분으로 나뉘어 서버로 전송되는 것을 의미
+       이 폼이 제출될 때 이 형식을 서버에 알려주며, 
+       multipart/form-data로 지정이 되어 있어야 서버에서 정상적으로 데이터를 처리할 수 있다.     
+-->
+
+	<form action="join" method="post" enctype="multipart/form-data">
 		<table>
 			<caption>회원가입</caption>
 			<tr height="40">
@@ -290,15 +307,26 @@ function inCheck() {
 					id="oMessage" class="eMessage"> </span></td>
 			</tr>
 			<tr height="40">
-				<td bgcolor="RosyBrown"><label for="birthday"> BIRTHDAY
+				<td bgcolor="RosyBrown"><label for="birthday">BIRTHDAY
 				</label></td>
 				<td><input type="date" name="birthday" id="birthday" size="20">
 					<br> <span id="bMessage" class="eMessage"> </span></td>
 			</tr>
 			<tr height="40">
-				<td bgcolor="RosyBrown"><label for="rid"> 추천인 </label></td>
+				<td bgcolor="RosyBrown"><label for="rid">추천인</label></td>
 				<td><input type="text" name="rid" id="rid" size="20"></td>
 			</tr>
+			
+			<tr height="40">
+				<!-- File Upload 기능 추가 -->
+				<td bgcolor="RosyBrown"><label for="uploadfilef">Image</label></td>
+				<td><input type="file" name="uploadfilef" id="uploadfilef" size="20"></td>
+				<!-- uploadfile 은 스트링 타입. 
+				우리가 받는건 특별한 객체. 
+				테이블 보관용 / 꺼내는 사용용  -->
+			</tr>
+			
+			
 			<tr height="40">
 				<td></td>
 				<td><input type="submit" id="submitTag" value="회원가입"

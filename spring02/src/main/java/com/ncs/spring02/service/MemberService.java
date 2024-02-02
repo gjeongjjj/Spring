@@ -20,6 +20,9 @@ public interface MemberService {
 
 	// ** update
 	int update(MemberDTO dto);
+	
+	// ** passwordUpdate
+	int pwUpdate(MemberDTO dto);
 
 	// ** delete
 	int delete(String id);
