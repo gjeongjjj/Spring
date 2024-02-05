@@ -100,7 +100,7 @@ public class MemberController {
 		dto = service.selectOne(dto.getId());
 		// => PasswordEncoder 적용
 		// if ( dto != null && dto.getPassword().equals(password)) {
-		if (dto != null && passwordEncoder.matches(password, dto.getPassword())) {
+		if (dto != null && passwordEncoder.matches(password, dto.getPassword())) { 
 			// 성공
 			session.setAttribute("loginID", dto.getId());
 			session.setAttribute("loginName", dto.getName());
@@ -164,7 +164,7 @@ public class MemberController {
 		// 1.2) realPath를 이용해서 물리적 저장위치 (file1) 확인
 		if (realPath.contains(".eclipse.")) // 개발중
 			realPath = "C:\\jgj\\StudyS\\Spring\\spring02\\src\\main\\webapp\\resources\\uploadImages\\";
-		else
+		else // 안개발중
 			realPath = "resources\\uploadImages\\";
 
 		// 1.3) 폴더 만들기 : 폴더 자체가 존재하지 않을수도 있다는 경우를 가정(uploadImages)
@@ -173,44 +173,23 @@ public class MemberController {
 			// => 저장 폴더가 존재하지 않는경우 만들어준다
 			file.mkdir();
 		}
-
-		// --------------------------------------------
-		// ** File Copy 하기 (IO Stream)
-		// => 기본이미지(cat04.gif) 가 uploadImages 폴더에 없는경우 기본폴더(images) 에서 가져오기
-		// => IO 발생: Checked Exception 처리
-		File f1 = new File(realPath + "basicman4.png"); // uploadImages 폴더에 파일존재 확인을 위함
-		if (!f1.isFile()) { // 존재하지않는 경우(파일존재의 여부를 확인)
-			String basicImagePath = "C:\\jgj\\StudyS\\Spring\\spring02\\src\\main\\webapp\\resources\\images\\basicman4.png";
-			FileInputStream fi = new FileInputStream(new File(basicImagePath));
-			// => basicImage 읽어 파일 입력바이트스트림 생성
-			FileOutputStream fo = new FileOutputStream(f1);
-			// => 목적지 파일(realPath+"basicman4.png") 출력바이트스트림 생성
-			FileCopyUtils.copy(fi, fo);
-		}
-		// --------------------------------------------
-
-		// --------------------------------------------
-		// ** MultipartFile
-		// => 업로드한 파일에 대한 모든 정보를 가지고 있으며 이의 처리를 위한 메서드를 제공한다.
-		// -> String getOriginalFilename(),
-		// -> void transferTo(File destFile),
-		// -> boolean isEmpty()
-
+		
 		// 1.4) 저장경로 완성
 		// => 기본 이미지 저장
 		String file1 = "", file2 = "basicman1.jpg";
-
+		
 		MultipartFile uploadfilef = dto.getUploadfilef();
-		if (uploadfilef != null && !uploadfilef.isEmpty()) {
+		if (uploadfilef != null && uploadfilef.isEmpty()) {
 			// => image_File 을 선택함
-			// 1.4.1) 물리적위치 저장 (file1)
-			file1 = realPath + uploadfilef.getOriginalFilename(); // 저장경로(relaPath+화일명) 완성
+			// 1.4.1) 물리적 위치 저장(file1)
+			file1 = realPath + uploadfilef.getOriginalFilename(); // 저장경로(realPath + 파일명) 완성
 			uploadfilef.transferTo(new File(file1)); // 해당경로에 저장(붙여넣기)
-
+			
 			// 1.4.2) Table 저장경로 완성 (file2)
 			file2 = uploadfilef.getOriginalFilename();
 		}
 		dto.setUploadfile(file2);
+		
 		// --------------------------------------------
 
 		// 2. Service & 결과

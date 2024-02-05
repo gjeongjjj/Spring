@@ -27,12 +27,10 @@ function idDupCheck() {
 	// 1) id입력값의 무결성점검
 	if ( !iCheck ) {
 		iCheck=idCheck();
-		console.log('333');
 	// 2) 서버로 id 확인 요청 -> 결과는 view_Page팝업창 으로. 
 	} else {
 		let url = "idDupCheck?id="+document.getElementById('id').value;
 		window.open(url, '_blank', 'width=400,height=300,resizable=yes,scrollbars=yes,toolbar=no,menubar=yes');
-		
 	}
 	
 } // idDupCheck

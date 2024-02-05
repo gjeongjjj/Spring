@@ -25,7 +25,7 @@
 			   }//if
 			});
 		   // -> 무결성 점검 
-		    document.getElementById('id').addEventListener('focusout', ()=>{ iCheck=idCheck(); });
+		   document.getElementById('id').addEventListener('focusout', ()=>{ iCheck=idCheck(); });
 		   
 		   // => Password
 		    document.getElementById('password').addEventListener('keydown',
