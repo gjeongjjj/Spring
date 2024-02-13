@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapperInterface.JoMapper">
+
+
+<!-- ** joCaptain -->
+	<select id="joCaptain" resultType="com.ncs.spring02.domain.JoDTO">
+		select j.jno, j.jname, j.captain, m.name, j.project, j.slogan 
+		from member m 
+		join jo j 
+		on j.captain = m.id
+	</select>
+	
+<!-- ** joList -->
+	<select id="joList" resultType="com.ncs.spring02.domain.JoDTO">
+		select jno, jname from jo
+	</select>
+
+<!-- ** joDetail -->
+
+<!-- ** joInsert -->
+
+<!-- ** joUpdate -->
+
+<!-- ** joUpdate -->
+
+
+
+
+
+</mapper>

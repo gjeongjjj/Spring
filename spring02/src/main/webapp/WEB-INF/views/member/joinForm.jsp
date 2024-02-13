@@ -318,10 +318,32 @@ function inCheck() {
 			<tr height="40">
 				<!-- File Upload 기능 추가 -->
 				<td bgcolor="RosyBrown"><label for="uploadfilef">Image</label></td>
-				<td><input type="file" name="uploadfilef" id="uploadfilef" size="20"></td>
+				<td>
+					<img alt="MyImage" src="/spring02/resources/images/basicman4.png"
+						width="80" height="100" class="select_img" >
+					<br> 
+					<input type="file" name="uploadfilef" id="uploadfilef" size="20">
+				</td>
 				<!-- uploadfile 은 스트링 타입. 
 				우리가 받는건 특별한 객체. 
 				테이블 보관용 / 꺼내는 사용용  -->
+				
+			<script>
+				document.getElementById('uploadfilef').onchange = function(e) {
+					if (this.files && this.files[0]) {
+						let reader = new FileReader;
+						reader.readAsDataURL(this.files[0]);
+						reader.onload = function(e) {
+							// => jQuery를 사용하지 않는경우 
+							document.getElementsByClassName('select_img')[0].src = e.target.result;
+		
+							//$(".select_img").attr("src", e.target.result)
+							//            .width(70).height(90); 
+						} // onload_function
+					} // if   
+				}; //change
+			</script>
+				
 			</tr>
 			
 			

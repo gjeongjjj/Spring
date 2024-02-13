@@ -158,6 +158,8 @@ public class MemberController {
 
 		// 1) 물리적 실제저장 위치 확인
 		// 1-1) 현재 웹어플리케이션의 실행위치
+		// => 이클립스 개발환경 (배포 전) : ~~.eclipse.~~ 포함
+		// => 톰캣 서버 (배포 후) : ~~.eclipse.~~ 포함되어있지 않음
 		String realPath = request.getRealPath("/");
 		System.out.println("** realPath => " + realPath);
 
@@ -165,7 +167,7 @@ public class MemberController {
 		if (realPath.contains(".eclipse.")) // 개발중
 			realPath = "C:\\jgj\\StudyS\\Spring\\spring02\\src\\main\\webapp\\resources\\uploadImages\\";
 		else // 안개발중
-			realPath = "resources\\uploadImages\\";
+			realPath = "C:\\jgj\\IDESet\\apache-tomcat-9.0.85\\webapps\\spring02\\resources\\uploadImages\\";
 
 		// 1.3) 폴더 만들기 : 폴더 자체가 존재하지 않을수도 있다는 경우를 가정(uploadImages)
 		File file = new File(realPath);
@@ -174,12 +176,28 @@ public class MemberController {
 			file.mkdir();
 		}
 		
+		// --------------------------------------------
+		// ** File Copy 하기 (IO Stream)
+		// => 기본이미지(cat04.gif) 가 uploadImages 폴더에 없는경우 기본폴더(images) 에서 가져오기
+		// => IO 발생: Checked Exception 처리
+		File f1 = new File(realPath+"basicman1.jpg"); // uploadImages 폴더에 파일존재 확인을 위함
+		if (!f1.isFile()) { // 존재하지않는 경우(파일존재의 여부를 확인)
+			String basicImagePath = "C:\\jgj\\StudyS\\Spring\\spring02\\src\\main\\webapp\\resources\\images\\basicman4.png";
+			FileInputStream fi = new FileInputStream(new File(basicImagePath));
+			// => basicImage 읽어 파일 입력바이트스트림 생성
+			FileOutputStream fo = new FileOutputStream(f1);
+			// => 목적지 파일(realPath+"basicman4.png") 출력바이트스트림 생성
+			FileCopyUtils.copy(fi, fo);
+		}
+		// --------------------------------------------
+
+		
 		// 1.4) 저장경로 완성
 		// => 기본 이미지 저장
 		String file1 = "", file2 = "basicman1.jpg";
 		
 		MultipartFile uploadfilef = dto.getUploadfilef();
-		if (uploadfilef != null && uploadfilef.isEmpty()) {
+		if (uploadfilef != null && !uploadfilef.isEmpty()) {
 			// => image_File 을 선택함
 			// 1.4.1) 물리적 위치 저장(file1)
 			file1 = realPath + uploadfilef.getOriginalFilename(); // 저장경로(realPath + 파일명) 완성
@@ -244,7 +262,7 @@ public class MemberController {
 
 	// update
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(HttpSession session, Model model, MemberDTO dto) {
+	public String update(HttpServletRequest request, HttpSession session, Model model, MemberDTO dto) throws IOException {
 		// 1. 요청 분석
 		// => 성공 : MemberDetail
 		// => 실패 : 다시 updateForm으로.
@@ -252,6 +270,38 @@ public class MemberController {
 
 		String uri = "member/memberDetail"; // 성공시
 		model.addAttribute("apple", dto);
+		
+		MultipartFile uploadfilef = dto.getUploadfilef();
+		if (uploadfilef != null && !uploadfilef.isEmpty()) {
+			// => image_File 을 선택함
+			// 1) 물리적 위치 저장(file1)
+			String realPath = request.getRealPath("/");
+			String file1; // 이전 이미지값. 
+			
+			// 2) realPath를 이용해서 물리적 저장위치 (file1) 확인
+			if (realPath.contains(".eclipse.")) // 개발중. 배포X
+				realPath = "C:\\jgj\\StudyS\\Spring\\spring02\\src\\main\\webapp\\resources\\uploadImages\\";
+			else // 안개발중
+				realPath = "C:\\jgj\\IDESet\\apache-tomcat-9.0.85\\webapps\\spring02\\resources\\uploadImages\\";
+
+			// 3) oldFile 삭제
+			// => oldFile Name : dto.getUploadfile()
+			// => 삭제경로 : realPath+dto.getUploadfile()
+			File delFile = new File(realPath + dto.getUploadfile());
+			if (delFile.isFile()) {
+				delFile.delete();
+			} // file 존재시 삭제. 
+			
+			// 4) newFile 저장
+			file1 = realPath+uploadfilef.getOriginalFilename(); // 저장경로 (realPath + 파일명) 완성
+			uploadfilef.transferTo(new File(file1)); //해당 경로에 저장(붙여넣기) 
+			
+			// 5) Table 저장경로 완성 (file2)
+			dto.setUploadfile(uploadfilef.getOriginalFilename());
+		}
+		
+		
+		//=========================================================
 
 		// 2. Service & 결과
 		if (service.update(dto) > 0) {

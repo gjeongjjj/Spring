@@ -179,7 +179,7 @@ public class MemberDAO {
 	// id(P.Key) 제외한 모든 컬럼 수정
 	public int update(MemberDTO dto) {
 		sql = "update member set name = ?, age = ?, jno = ?, info = ?"
-				+ ", point = ?, birthday = ?, rid = ? where id = ?";
+				+ ", point = ?, birthday = ?, rid = ?, uploadfile=? where id = ?";
 		
 		try {
 			pst = cn.prepareStatement(sql);
@@ -191,7 +191,8 @@ public class MemberDAO {
 			pst.setDouble(5, dto.getPoint());
 			pst.setString(6, dto.getBirthday());
 			pst.setString(7, dto.getRid());
-			pst.setString(8, dto.getId());
+			pst.setString(8, dto.getUploadfile());
+			pst.setString(9, dto.getId());
 			
 			return pst.executeUpdate();
 			

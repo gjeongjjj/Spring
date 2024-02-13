@@ -10,6 +10,8 @@ import com.ncs.spring02.domain.MemberDTO;
 import com.ncs.spring02.model.JoDAO;
 import com.ncs.spring02.model.MemberDAO;
 
+import mapperInterface.JoMapper;
+
 //** Service
 //=> 요청클래스 와 DAO클래스 사이의 연결(완충지대) 역할
 //=> 요청클래스(컨트롤러) 와 DAO클래스 사이에서 변경사항이 생기더라도 서로 영향   받지않도록해주는 역할
@@ -22,43 +24,45 @@ import com.ncs.spring02.model.MemberDAO;
 @Service
 public class JoServiceImpl implements JoService {
 	  
+//	@Autowired
+//	JoDAO dao;
 	@Autowired
-	JoDAO dao;
+	JoMapper mapper;
 	
 	// joCaptain
 	@Override
 	public List<JoDTO> joCaptain() {
-		return dao.joCaptain();
+		return mapper.joCaptain();
 	}
 	
 	// joList
 	@Override
 	public List<JoDTO> joList() {
-		return dao.joList();
+		return mapper.joList();
 	}
 		
 	// joDetail
 	@Override
 	public JoDTO joDetail(int jno) {
-		return dao.joDetail(jno);
+		return mapper.joDetail(jno);
 	}
 	
 	// joInsert
 	@Override
 	public int joInsert(JoDTO dto) {
-		return dao.insert(dto);
+		return mapper.joInsert(dto);
 	}
 	
-	// update
+	// joUpdate
 	@Override
 	public int joUpdate(JoDTO dto) {
-		return dao.update(dto);
+		return mapper.joUpdate(dto);
 	}
 	
-	// delete
+	// joUpdate
 	@Override
 	public int joDelete(int jno) {
-		return dao.delete(jno);
+		return mapper.joDelete(jno);
 	}
 	
 	
