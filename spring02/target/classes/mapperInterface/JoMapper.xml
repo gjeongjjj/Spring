@@ -6,10 +6,16 @@
 
 <!-- ** joCaptain -->
 	<select id="joCaptain" resultType="com.ncs.spring02.domain.JoDTO">
-		select j.jno, j.jname, j.captain, m.name, j.project, j.slogan 
+<!-- 		select j.jno, j.jname, j.captain, m.name, j.project, j.slogan 
 		from member m 
 		join jo j 
-		on j.captain = m.id
+		on j.captain = m.id -->
+		
+		select j.jno, j.jname, captain, m.name cname, project, slogan 
+		from jo j 
+		join member m 
+		ON m.id = j.captain
+		
 	</select>
 	
 <!-- ** joList -->
@@ -18,13 +24,26 @@
 	</select>
 
 <!-- ** joDetail -->
+	<select id="joDetail" resultType="com.ncs.spring02.domain.JoDTO" >
+		select * from jo where jno = #{jno}
+	</select>
 
-<!-- ** joInsert -->
+<!-- ** joInsert  -->
+	<insert id="joInsert">
+		insert into jo values (#{jno}, #{jname}
+			, #{captain}, #{project}, #{slogan})
+	</insert>
 
 <!-- ** joUpdate -->
+	<update id="joUpdate">
+		update jo set jname = #{jname}, captain = #{captain}
+			, project = #{project}, slogan = #{slogan} where jno = #{jno}
+	</update>
 
-<!-- ** joUpdate -->
-
+<!-- ** joDelete -->
+	<delete id="joDelete">
+		delete from jo where jno = #{jno}
+	</delete>
 
 
 

@@ -1,12 +1,12 @@
-package com.ncs.spring02.service;
+package mapperInterface;
 
-import java.util.List;
+import java.util.List; 
 
 import com.ncs.spring02.domain.BoardDTO;
 
 import pageTest.Criteria;
 
-public interface BoardService {
+public interface BoardMapper {
 	
 	// ** Board_Paging
 	public List<BoardDTO> bPageList(Criteria cri);
@@ -24,6 +24,8 @@ public interface BoardService {
 	// ** replyInsert
 	public int rinsert(BoardDTO dto);
 	
+	// ****** stepUpdate
+	public int stepUpdate(BoardDTO dto);
 	
 	// ** update
 	public int update(BoardDTO dto);

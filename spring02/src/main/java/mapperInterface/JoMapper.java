@@ -18,10 +18,10 @@ public interface JoMapper {
 	// joInsert
 	int joInsert(JoDTO dto);
 
-	// update
+	// joUpdate
 	int joUpdate(JoDTO dto);
 
-	// delete
+	// joDelete
 	int joDelete(int jno);
 
 	

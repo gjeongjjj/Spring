@@ -49,7 +49,8 @@
 <hr>
 &nbsp;<a href="board/boardList">BList</a>&nbsp; 
 &nbsp;<a href="bcrypt">BCrypt</a>&nbsp; 
-
+<hr>
+&nbsp;<a href="board/bPageList">BPage</a>&nbsp; 
 
 </body>
 </html>
