@@ -1,6 +1,6 @@
 package pageTest;
 
-import lombok.Getter;
+import lombok.Getter;  
 import lombok.ToString;
 
 // ** Criteria : (판단이나 결정을 위한) 기준

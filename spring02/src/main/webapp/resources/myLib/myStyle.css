@@ -6,6 +6,10 @@
 	font-size: 20px;
 }
 
+.clear{
+	width: 50px;
+}
+
 table {
   border-collapse: collapse;
   width: 500px;
@@ -69,6 +73,8 @@ textarea {
 .gray{
 	background: #d3d3d3;
 }
+
+
 
 /* Error Message */
 .eMessage {

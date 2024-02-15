@@ -17,6 +17,7 @@ import com.ncs.spring02.service.BoardService;
 import lombok.AllArgsConstructor;
 import pageTest.Criteria;
 import pageTest.PageMaker;
+import pageTest.SearchCriteria;
 
 @Controller
 @AllArgsConstructor
@@ -25,15 +26,58 @@ public class BoardController {
 	
 	BoardService service;
 	
-	// ** Board_Paging
-	@GetMapping("/bPageList")
-	public void bPageList(Model model, Criteria cri, PageMaker pageMaker ) {
+	// ** Board Check_List
+	@GetMapping("/bCheckList")
+	public String bCheckList(Model model, SearchCriteria cri, PageMaker pageMaker ) {
 		// 1) Criteria 처리
-		// => currPage, rowsPerPage 값들은 Parameter로 전달되어 자동으로 cri에 set
+		// => ver01: currPage, rowsPerPage 값들은 Parameter로 전달되어 자동으로 cri에 set
+		// => ver02: ver01 + searchType, keyword 도 동일하게 cri 에 set
+		cri.setSnoEno();
+		
+		String uri = "board/bPageList";
+		
+		// 2) Service 
+		// => 출력 대상인 Rows 를 select 
+		// => ver01, 02 모두 같은 service 메서드 사S용, 
+		// 	  mapper interface 에서 사용하는 Sql 구문말 교체 
+		//    즉, BoardMapper.xml 에 새로운ㅁ sql 구문 추가, BoardMapper.java interface 수정
+		
+		// => check 의 값을 선택하지 않은 경우 check 값을 null로 확실하게 해줘야함. 
+		//    mapper 에서 명확하게 구분할 수 있도록 해야 정확한 처리 가능
+		if (cri.getCheck() != null && cri.getCheck().length < 1) {
+			cri.setCheck(null);
+		}
+		
+		model.addAttribute("boardAll", service.bCheckList(cri));
+		
+		
+		
+		// 3) View 처리 : PageMaker 이용
+		// => cri, totalRowsCount ( Read from DB)
+		pageMaker.setCri(cri);
+		pageMaker.setTotalRowsCount(service.bCheckRowsCount(cri));
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return uri;
+	}
+	
+	
+	// ** Board_Paging
+	// => ver01 : Criteria 사용
+	// => ver02 : SearchCriteria 사용 (검색기능 추가)
+	
+	@GetMapping("/bPageList")
+	public void bPageList(Model model, SearchCriteria cri, PageMaker pageMaker ) {
+		// 1) Criteria 처리
+		// => ver01: currPage, rowsPerPage 값들은 Parameter로 전달되어 자동으로 cri에 set
+		// => ver02: ver01 + searchType, keyword 도 동일하게 cri 에 set
 		cri.setSnoEno();
 		
 		// 2) Service 
 		// => 출력 대상인 Rows 를 select 
+		// => ver01, 02 모두 같은 service 메서드 사용, 
+		// 	  mapper interface 에서 사용하는 Sql 구문말 교체 
+		//    즉, BoardMapper.xml 에 새로운 sql 구문 추가, BoardMapper.java interface 수정
 		model.addAttribute("boardAll", service.bPageList(cri));
 		
 		
@@ -44,15 +88,6 @@ public class BoardController {
 		model.addAttribute("pageMaker", pageMaker);
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

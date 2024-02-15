@@ -10,6 +10,7 @@ import com.ncs.spring02.model.BoardDAO;
 
 import mapperInterface.BoardMapper;
 import pageTest.Criteria;
+import pageTest.SearchCriteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -20,14 +21,32 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardMapper mapper;
 	
+	// ** Board_Paging
+	// => ver01 : Criteria 사용
+	// => ver02 : SearchCriteria 사용
+	
+	// ** Board Check_List	
 	@Override
-	public List<BoardDTO> bPageList(Criteria cri) {
+		public List<BoardDTO> bCheckList(SearchCriteria cri) {
+			return mapper.bCheckList(cri);
+		}
+	@Override
+		public int bCheckRowsCount(SearchCriteria cri) {
+			return mapper.bCheckRowsCount(cri);
+		}
+
+
+	@Override
+	public List<BoardDTO> bPageList(SearchCriteria cri) {
+//		return mapper.bPageList(cri); // ver01
+		return mapper.bSearchList(cri); // ver02
 		
-		return mapper.bPageList(cri);
 	}
 	@Override
-	public int totalRowsCount(Criteria cri) {
-		return mapper.totalRowsCount(cri);
+	public int totalRowsCount(SearchCriteria cri) {
+//		return mapper.totalRowsCount(cri); // ver01
+		return mapper.bSearchRowsCount(cri); // ver02
+
 	}
 	
 	

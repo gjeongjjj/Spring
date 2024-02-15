@@ -32,7 +32,7 @@
 			<th>I D</th>
 			<td>${requestScope.boardOne.id }</td>
 		</tr>
-		<tr height="50">
+		<tr height="150">
 			<th>Content</th>
 			<td>${requestScope.boardOne.content }</td>
 		</tr>
