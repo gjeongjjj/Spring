@@ -9,6 +9,7 @@ import com.ncs.spring02.domain.MemberDTO;
 import com.ncs.spring02.model.MemberDAO;
 
 import mapperInterface.MemberMapper;
+import pageTest.SearchCriteria;
 
 //** Service
 //=> 요청클래스 와 DAO클래스 사이의 연결(완충지대) 역할
@@ -51,6 +52,26 @@ public class MemberServiceImpl implements MemberService {
 //	=> 그러므로 개발자는 interface와 xml 만 구현하고 Service 와 연결해주면 됨. 
 	@Autowired
 	MemberMapper mapper;
+	
+	@Override
+	public List<MemberDTO> mCheckList(SearchCriteria cri) {
+		return mapper.mCheckList(cri);
+		
+	}
+	@Override
+	public int mCheckRowsCount(SearchCriteria cri) {
+		return mapper.mCheckRowsCount(cri);
+	}
+	
+	@Override
+	public List<MemberDTO> mPageList(SearchCriteria cri) {
+		return mapper.mSearchList(cri);
+	}
+	@Override
+	public int totalRowsCount(SearchCriteria cri) {
+		return mapper.mSearchRowsCount(cri);
+	}
+	
 	
 	// ** selectList
 	@Override

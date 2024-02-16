@@ -34,16 +34,25 @@ public class PageMaker {
 	private boolean prev; // 이전 PageBlock 으로 
 	private boolean next; // 다음 PageBlock 으로 
 	
+	// => 요청명에 해당하는 url을 만들기 위함임. 
+	private String mappingName;
+	
 //	Criteria cri; //ver01
 	SearchCriteria cri; //ver02
 	
-	// ** 필요값 계산 
+	// ** 필요값 set & 계산
 	// 1) Criteria __세터 만들기
 	// => ver01:Criteria
-	// => ver02:Search
+	// => ver02:SearchCriteria
 	public void setCri(SearchCriteria cri) {
 		this.cri = cri;
 	}
+	
+	public void setMppingName(String mappingName) {
+		this.mappingName = mappingName;
+	}
+	
+	
 	// 2) totalRowsCount (전체 데이터 갯수)
 	// => 전체 Rows 갯수 : Read from DB
 	// => 이 값을 이용해서 나머지 필요한 값 계산 
@@ -98,6 +107,8 @@ public class PageMaker {
 	// 파라미터가 조합된 uri를 손쉽게 만들어줌
 	// => ?currPage=7&rowsPerPage=10 이것을 만들어줌
 	// ? 부터 만들어지므로 jsp Code에서 ? 포함하지 않도록 주의
+	
+	// => mappingName을 앞쪽에 추가함 
 
 	// ** ver01
 	// => QueryString 자동생성
@@ -109,7 +120,8 @@ public class PageMaker {
 				.queryParam("currPage", currPage)
 				.queryParam("rowsPerPage", cri.getRowsPerPage())
 				.build();
-		return uriComponents.toString();
+//		return uriComponents.toString(); 이전 것에 this.mappingName 쿼리스트링에 붙여줌. 
+		return this.mappingName + uriComponents.toString();
 				
 				// ""안에 파라미터 이름이 들어간다. 
 	} //makeQuery
@@ -158,7 +170,7 @@ public class PageMaker {
 				.queryParam("keyword", cri.getKeyword())
 				.queryParams(checkMap)
 				.build();
-		return uriComponents.toString();
+		return this.mappingName + uriComponents.toString();
 		
 	} //searchQuery
 	

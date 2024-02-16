@@ -19,7 +19,6 @@ public interface BoardMapper {
 	public int bSearchRowsCount(SearchCriteria cri);
 	
 	
-	
 	// ** Board_Paging
 	public List<BoardDTO> bPageList(Criteria cri);
 	public int totalRowsCount(Criteria cri);

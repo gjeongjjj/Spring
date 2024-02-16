@@ -1,5 +1,6 @@
 package com.ncs.spring02.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -28,13 +29,20 @@ public class BoardController {
 	
 	// ** Board Check_List
 	@GetMapping("/bCheckList")
-	public String bCheckList(Model model, SearchCriteria cri, PageMaker pageMaker ) {
+	public String bCheckList(HttpServletRequest request, Model model, 
+					SearchCriteria cri, PageMaker pageMaker ) {
+		
+		String uri = "board/bPageList";
+		// => 요청명을 url에 포함하기 위함
+		String mappingName = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/")+1);
+		System.out.println("=> RequestURI: " + request.getRequestURI());
+		// RequestURI: /spring02/board/bPageList
+		System.out.println("=> mappingName:" + mappingName);
+		
 		// 1) Criteria 처리
 		// => ver01: currPage, rowsPerPage 값들은 Parameter로 전달되어 자동으로 cri에 set
 		// => ver02: ver01 + searchType, keyword 도 동일하게 cri 에 set
 		cri.setSnoEno();
-		
-		String uri = "board/bPageList";
 		
 		// 2) Service 
 		// => 출력 대상인 Rows 를 select 
@@ -55,6 +63,7 @@ public class BoardController {
 		// 3) View 처리 : PageMaker 이용
 		// => cri, totalRowsCount ( Read from DB)
 		pageMaker.setCri(cri);
+		pageMaker.setMppingName(mappingName);
 		pageMaker.setTotalRowsCount(service.bCheckRowsCount(cri));
 		model.addAttribute("pageMaker", pageMaker);
 		
@@ -67,7 +76,11 @@ public class BoardController {
 	// => ver02 : SearchCriteria 사용 (검색기능 추가)
 	
 	@GetMapping("/bPageList")
-	public void bPageList(Model model, SearchCriteria cri, PageMaker pageMaker ) {
+	public void bPageList(HttpServletRequest request, Model model, SearchCriteria cri, PageMaker pageMaker ) {
+		
+		// => 요청명을 url에 포함하기 위함
+		String mappingName = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/")+1);
+		
 		// 1) Criteria 처리
 		// => ver01: currPage, rowsPerPage 값들은 Parameter로 전달되어 자동으로 cri에 set
 		// => ver02: ver01 + searchType, keyword 도 동일하게 cri 에 set
@@ -84,6 +97,7 @@ public class BoardController {
 		// 3) View 처리 : PageMaker 이용
 		// => cri, totalRowsCount ( Read from DB)
 		pageMaker.setCri(cri);
+		pageMaker.setMppingName(mappingName);
 		pageMaker.setTotalRowsCount(service.totalRowsCount(cri));
 		model.addAttribute("pageMaker", pageMaker);
 		

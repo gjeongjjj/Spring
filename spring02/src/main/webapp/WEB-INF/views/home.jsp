@@ -21,11 +21,11 @@
 <c:if test="${!empty requestScope.message}">
 	<hr> => ${requestScope.message } <br>
 </c:if>
-<br><br><br>
+<br><br>
 <img alt="mainImage" src="/spring02/resources/images/mermaid.jpg" width="400" height="250" >
 <img alt="mainImage" src="/spring02/resources/images/mermaid2.jpg" width="400" height="250" >
 <img alt="mainImage" src="/spring02/resources/images/mermaid3.jpg" width="400" height="250" >
-<br><br><br>
+<br><br>
 <hr>
 
 <!-- Login 전 -->
@@ -48,8 +48,8 @@
 <hr>
 &nbsp;<a href="board/boardList">BList</a>&nbsp; 
 &nbsp;<a href="bcrypt">BCrypt</a>&nbsp; 
-<hr>
 &nbsp;<a href="board/bPageList">BPage</a>&nbsp; 
+&nbsp;<a href="member/mPageList">MPage</a>&nbsp; 
 
 </body>
 </html>

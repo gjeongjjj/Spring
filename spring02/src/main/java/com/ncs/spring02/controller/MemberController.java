@@ -25,6 +25,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ncs.spring02.domain.MemberDTO;
 import com.ncs.spring02.service.MemberService;
 
+import pageTest.PageMaker;
+import pageTest.SearchCriteria;
+
 @Controller
 @RequestMapping(value = "/member")
 public class MemberController {
@@ -34,6 +37,49 @@ public class MemberController {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@GetMapping("/mCheckList")
+	public String mCheckList (HttpServletRequest request, Model model,
+					SearchCriteria cri, PageMaker pageMaker) {
+		String uri = "member/mPageList";
+		String mappingName = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/")+1);
+		
+		//cri
+		cri.setSnoEno();
+		
+		//service 
+		if (cri.getCheck() != null && cri.getCheck().length <1) {
+			cri.setCheck(null);
+		}
+		model.addAttribute("banana", service.mCheckList(cri));
+		
+		pageMaker.setCri(cri);
+		pageMaker.setMppingName(mappingName);
+		pageMaker.setTotalRowsCount(service.mCheckRowsCount(cri));
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return uri;
+	}
+	
+	
+	// ** mPageList
+	@GetMapping("/mPageList")
+	public void mPageList(HttpServletRequest request, Model model, 
+					SearchCriteria cri, PageMaker pageMaker) {
+		String mappingName = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/")+1);
+		
+		cri.setSnoEno();
+		//service
+		model.addAttribute("banana", service.mPageList(cri));
+
+		// view
+		pageMaker.setCri(cri);
+		pageMaker.setMppingName(mappingName);
+		pageMaker.setTotalRowsCount(service.totalRowsCount(cri));
+		model.addAttribute("pageMaker", pageMaker);
+		
+	}
+	
 
 	// ** ID 중복확인
 	@GetMapping("/idDupCheck")
