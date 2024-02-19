@@ -1,8 +1,9 @@
 package javaTest;
 
+import static org.junit.Assert.assertEquals; 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.ncs.spring02.domain.MemberDTO;
@@ -34,7 +35,7 @@ public class Ex03_DAOTest {
 	}
 	
 	// 2) Insert 정확성
-	@Test
+	@Before
 	public void insertTest() {
 		dto.setId("zizizi");
 		dto.setPassword("12345!");
