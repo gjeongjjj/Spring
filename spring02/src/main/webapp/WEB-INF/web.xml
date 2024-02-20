@@ -56,4 +56,16 @@
          ( 처리 안되는 부분 있다면  xml 에 추가적으로 필요한 코드를 작성함 ) 
    -->
 
+	<!-- Exception Test 1 : 응답 상태 코드 
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/errorPage/exception_404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/errorPage/exception_500.jsp</location>
+	</error-page>
+   -->
+   
+
 </web-app>
