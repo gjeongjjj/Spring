@@ -13,6 +13,8 @@ public class JoDTO {
 	private String captain;
 	private String project;
 	private String slogan;
+	
+	
 	private String cname; //captainName
 	
 }
