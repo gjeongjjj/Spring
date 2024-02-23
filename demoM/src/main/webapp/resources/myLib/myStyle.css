@@ -74,6 +74,14 @@ textarea {
 	background: #d3d3d3;
 }
 
+.textlink { color:Blue; font-weight:bold; }
+.textlink:hover { 
+    color:DeepSkyBlue; 
+    font-size:1.2em; 
+    font-weight:bold;
+    cursor:pointer;
+}
+
 
 
 /* Error Message */

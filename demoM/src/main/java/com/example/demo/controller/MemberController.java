@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,19 @@ public class MemberController {
 
 	MemberService service;
 	PasswordEncoder passwordEncoder;  //DemoConfig 에 설정
+	
+	
+	// ** Axios_MemberList
+	@GetMapping("/aximlist")
+	public String axiMemberList (Model model) {
+		model.addAttribute("banana", service.selectList());
+		log.info("**axMemberList 성공");
+		return "axTest/axMemberList";
+	}
+	
+	
+	
+	
 	
 	
 	

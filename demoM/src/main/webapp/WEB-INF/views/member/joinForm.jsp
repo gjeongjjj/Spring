@@ -247,7 +247,7 @@ function inCheck() {
        multipart/form-data로 지정이 되어 있어야 서버에서 정상적으로 데이터를 처리할 수 있다.     
 -->
 
-	<form action="join" method="post" enctype="multipart/form-data">
+	<form action="join" method="post" id="myform" enctype="multipart/form-data">
 		<table>
 			<caption>회원가입</caption>
 			<tr height="40">
@@ -365,7 +365,10 @@ function inCheck() {
 			     => 단, type 속성을 선택하면 (button, reset, submit 등) 속성에 맞게 실행됨
 			        예) button 을 선택하면 submit 은 실행되지않음   
 			        Enter_Key : Form 내부에서는 누르면 submit이 진행됨. 
-			        --> <input type="reset" value="재입력"></td>
+			        --> <input type="reset" value="재입력">
+			        <!-- Axios Join Test -->
+			        <span class="textlink" onclick="axiJoin()">axiJoin</span>
+			    </td>
 			</tr>
 
 		</table>
