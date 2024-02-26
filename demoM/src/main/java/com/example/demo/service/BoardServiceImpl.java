@@ -19,6 +19,12 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardMapper mapper;
 	
+	@Override
+	public List<BoardDTO> idbList(String id) {
+		return mapper.idbList(id);
+	}
+	
+	
 	// ** Board_Paging
 	// => ver01 : Criteria 사용
 	// => ver02 : SearchCriteria 사용

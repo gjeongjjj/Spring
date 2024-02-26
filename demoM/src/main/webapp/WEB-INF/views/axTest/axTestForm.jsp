@@ -27,6 +27,7 @@
 	<span class="textlink" onclick="rsLoginf()">rsLogin</span>&nbsp; &nbsp;
 	<span class="textlink" onclick="rsJoinf()">rsJoin</span>&nbsp; &nbsp;
 	<span class="textlink" onclick="axiMList()">axiMList</span>&nbsp;
+	<span class="textlink" onclick="axiMListCri('axmcri')">axiMListCri</span>&nbsp;
 	&nbsp;
 	<a href="/home">[Home]</a>
 	<hr>

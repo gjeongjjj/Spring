@@ -52,6 +52,7 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	MemberMapper mapper;
 	
+	
 	@Override
 	public List<MemberDTO> mCheckList(SearchCriteria cri) {
 		return mapper.mCheckList(cri);

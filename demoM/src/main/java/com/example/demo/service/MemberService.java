@@ -2,12 +2,14 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
+
 import com.example.demo.domain.MemberDTO;
 
 import pageTest.SearchCriteria;
 
 public interface MemberService {
-
+	
 	// ** Member Check_List
 	public List<MemberDTO> mCheckList(SearchCriteria cri);
 	public int mCheckRowsCount(SearchCriteria cri);

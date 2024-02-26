@@ -30,14 +30,20 @@
 		<th>Birthday</th>
 		<th>추천인</th>
 		<th>Image</th>
+		<!-- DELETE 기능 추가 -->
+		<th>Delete</th>
 	</tr>
 	<c:if test="${!empty requestScope.banana }">
 		<!-- 있으면 출력 없으면 안출력 -->
 		<c:forEach var="ba" items="${requestScope.banana}" >
-			<!-- requestScope.banana 리스트 안에 있는걸 ba에 넣어서 하나하나 읽을거임 -->
+			<!-- 
+				** idbList : id별 boardList
+				=> 선택된 id를 function에 전달. (매개변수를 활용함. )
+				   idbList('banana')
+			 -->
 			<tr>
-				<!-- jstl 표현식은 getter포함되어 있어서 굳이 getter안써도 됨.  -->
-				<td>${ba.id}</td>
+				<%-- <td>${ba.id}</td> --%>
+				<td><span class="textlink" onclick="idbList('${ba.id}')">${ba.id}</span></td>
 				<%-- <td>${ba.password}</td> --%>
 				<td>${ba.name}</td>
 				<td>${ba.age}</td>
@@ -48,12 +54,18 @@
 				<td>${ba.rid}</td>
 				<td> <img alt="myImage" src="/resources/uploadImages/${ba.uploadfile}"
 						  width="50" height="70"> </td>
+				<!-- DELETE 기능 추가 
+					=> 선택된 id를 function에 전달. (매개변수를 활용함. )
+					=> 결과는 성공/실패 여부만 전달: RESTController
+					=> 성공 : Deleted 로 변경해주고, onclick 이벤트 해제. 
+				-->
+				<td> <span class="textlink" id="${ba.id}" onclick="axiDelete('${ba.id}')" >DELETE</span> </td>
 			</tr>
 		</c:forEach>
 	</c:if>
 	<c:if test="${empty requestScope.banana }">
 		<tr>
-			<td colspan="9"> ( ￣^￣) 출력 자료가 없습니다. ~~ </td>
+			<td colspan="10"> ( ￣^￣) 출력 자료가 없습니다. ~~ </td>
 		</tr>
 	</c:if>
 </table>

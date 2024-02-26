@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.domain.BoardDTO;
 import com.example.demo.domain.JoDTO;
 import com.example.demo.domain.MemberDTO;
 import com.example.demo.domain.UserDTO;
+import com.example.demo.service.BoardService;
 import com.example.demo.service.JoService;
 import com.example.demo.service.MemberService;
 
@@ -132,6 +135,7 @@ public class RESTController {
 	MemberService service;
 	JoService jservice;
 	PasswordEncoder passwordEncoder; //DomoConfig 에 생성 설정
+	BoardService bservice;
 	
 	@GetMapping("/hello")
 	// => 메뉴얼이 직접 요청 : http://localhost:8080/spring02/rest/hello
@@ -481,5 +485,44 @@ public class RESTController {
             }
 		return result;
 	} // rsjoin
+	
+	
+	// ** Ajax, 반복문에 이벤트 적용하기
+	// 1) idbList(id별 boardList)
+	@GetMapping("/idblist/{id}" )
+	public ResponseEntity<?> idblist(@PathVariable("id") String id) {
+		
+		ResponseEntity<?> result = null;
+		
+		List<BoardDTO> list = bservice.idbList(id);
+		// => 출력 Data 유/무
+		if(list != null && list.size() > 0) {
+			result = ResponseEntity.status(HttpStatus.OK).body(list);
+			log.info("** idblist HttpStatus.OK => " + HttpStatus.OK);
+		} else {
+			result = ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("출력할 자료가 없슴둥. ");
+			log.info("** idblist HttpStatus.BAD_GATEWAY => " + HttpStatus.BAD_GATEWAY);
+		}
+		return result;
+	}
+		
+	@DeleteMapping("/axidelete/{id}")
+	public ResponseEntity<?> axidelete(@PathVariable("id") String id) {
+		ResponseEntity<?> result = null;
+		log.info("hihi");
+		if (service.delete(id) > 0) {
+			// 성공
+			result = ResponseEntity.status(HttpStatus.OK).body("삭제 성공함.");
+			log.info("** axidelete HttpStatus.OK => "+ HttpStatus.OK);
+		} else {
+			result = ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("삭제 실패함.");
+			log.info("** axidelete HttpStatus.BAD_GATEWAY => "+ HttpStatus.BAD_GATEWAY);
+			
+		}
+		return result;
+	}
+	
+	
+	
 	
 }
