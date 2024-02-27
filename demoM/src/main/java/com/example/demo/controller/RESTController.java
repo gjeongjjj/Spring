@@ -509,7 +509,7 @@ public class RESTController {
 	@DeleteMapping("/axidelete/{id}")
 	public ResponseEntity<?> axidelete(@PathVariable("id") String id) {
 		ResponseEntity<?> result = null;
-		log.info("hihi");
+		
 		if (service.delete(id) > 0) {
 			// 성공
 			result = ResponseEntity.status(HttpStatus.OK).body("삭제 성공함.");
@@ -521,6 +521,25 @@ public class RESTController {
 		}
 		return result;
 	}
+	
+	@GetMapping("/jodetail/{jno}")
+	public ResponseEntity<?> showJoDetail(@PathVariable("jno") int jno) {
+		ResponseEntity<?> result = null;
+		
+		JoDTO dto = jservice.joDetail(jno);
+		
+		if(dto != null) {
+			// 성공
+			result = ResponseEntity.status(HttpStatus.OK).body(dto);
+			log.info("** showJoDetail HttpStatus.OK => "+ HttpStatus.OK);
+		} else {
+			result = ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("조 디테일 실패");
+			log.info("** axidelete HttpStatus.BAD_GATEWAY => "+ HttpStatus.BAD_GATEWAY);
+
+		}
+		return result;
+	}
+	
 	
 	
 	
