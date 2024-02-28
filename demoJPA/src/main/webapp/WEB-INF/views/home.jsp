@@ -51,6 +51,13 @@
 &nbsp;<a href="board/bPageList">BPage</a>&nbsp; 
 &nbsp;<a href="member/mPageList">MPage</a>&nbsp; 
 &nbsp;<a href="/axtestform">AjaxTest</a>&nbsp; 
+<br>
+&nbsp;<a href="/ginsert">GInsert</a>&nbsp; 
+&nbsp;<a href="/glist">GList</a>&nbsp; 
+&nbsp;<a href="/gupdate">GUpdate</a>&nbsp; 
+<!-- delete는 직접 요청할 거임. -->
+&nbsp;<a href="/gpage">GPage</a>&nbsp; 
+
 
 
 
