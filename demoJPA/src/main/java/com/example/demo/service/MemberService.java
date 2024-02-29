@@ -2,42 +2,38 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-
 import com.example.demo.domain.MemberDTO;
-
-import pageTest.SearchCriteria;
+import com.example.demo.entity.Member;
 
 public interface MemberService {
 	
-	// ** Member Check_List
-	public List<MemberDTO> mCheckList(SearchCriteria cri);
-	public int mCheckRowsCount(SearchCriteria cri);
-	
-	// ** mPageList : Member search Paging
-	public List<MemberDTO> mPageList(SearchCriteria cri);
-	public int totalRowsCount(SearchCriteria cri);
-	
-	
 	// ** selectList
-	List<MemberDTO> selectList();
-
-	// selectJoList
-	List<MemberDTO> selectJoList(int jno);
+	List<Member> selectList();
 
 	// ** selectOne
-	MemberDTO selectOne(String id);
+	Member selectOne(String id);
 
-	// ** insert
-	int insert(MemberDTO dto);
-
-	// ** update
-	int update(MemberDTO dto);
+	// ** insert,  update
+	Member save(Member entity);
 	
 	// ** passwordUpdate
-	int pwUpdate(MemberDTO dto);
+	Member pwUpdate(Member entity);
 
 	// ** delete
-	int delete(String id);
+	void deleteById(String id);
+	
+	// 1) JPARepository Method 규약 
+	//    => jno별 Member 출력
+	List<Member> findByJno(int jno);
+	
+	// 2) @Query 를 이용한 직접쿼리 선언
+	// => password Update에 적용
+	void updatePassword1(String id, String password);
+	
+	// ** Join
+	List<MemberDTO> findMemberJoin();
+	
+	
+	
 
 }

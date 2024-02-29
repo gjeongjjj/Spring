@@ -51,6 +51,8 @@
 여기까지 조 리스트. 
 아래에 조 수정 삭제 애들 있어야 함. 
  -->
+ &nbsp;<h3><a href="/jo/joInsert">조 등록</a></h3>&nbsp;
+ 
 
 <hr>
 &nbsp;<h3><a href="/home">HOME</a></h3>&nbsp;

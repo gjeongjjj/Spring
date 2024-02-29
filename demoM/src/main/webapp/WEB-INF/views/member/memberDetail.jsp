@@ -14,50 +14,50 @@
 	<h2>멤버 디테일</h2>
 
 	<table>
-		<c:if test="${!empty requestScope.apple}">
+		<c:if test="${!empty requestScope.MemberOne}">
 			<tr>
 				<th bgcolor="coral" height="50">I D</th>
-				<td>${requestScope.apple.id }</td>
+				<td>${requestScope.MemberOne.id }</td>
 			</tr>
 			<%-- <tr>
 			<th bgcolor="coral" height="50" >PASSWORD</th>
-			<td>${requestScope.apple.password }</td>
+			<td>${requestScope.MemberOne.password }</td>
 		</tr> --%>
 			<tr>
 				<th bgcolor="coral" height="50">NAME</th>
-				<td>${requestScope.apple.name }</td>
+				<td>${requestScope.MemberOne.name }</td>
 			</tr>
 			<tr>
 				<th bgcolor="coral" height="50">AGE</th>
-				<td>${requestScope.apple.age }</td>
+				<td>${requestScope.MemberOne.age }</td>
 			</tr>
 			<tr>
 				<th bgcolor="coral" height="50">INFO</th>
-				<td>${requestScope.apple.info }</td>
+				<td>${requestScope.MemberOne.info }</td>
 			</tr>
 			<tr>
 				<th bgcolor="coral" height="50">POINT</th>
-				<td>${requestScope.apple.point }</td>
+				<td>${requestScope.MemberOne.point }</td>
 			</tr>
 			<tr>
 				<th bgcolor="coral" height="50">BIRTHDAY</th>
-				<td>${requestScope.apple.birthday }</td>
+				<td>${requestScope.MemberOne.birthday }</td>
 			</tr>
 			<tr>
 				<th bgcolor="coral" height="50">추천인</th>
-				<td>${requestScope.apple.rid }</td>
+				<td>${requestScope.MemberOne.rid }</td>
 			</tr>
 
 			<tr>
 				<th bgcolor="coral">Image</th>
 				<td><img alt="myImage"
-					src="/resources/uploadImages/${requestScope.apple.uploadfile}"
+					src="/resources/uploadImages/${requestScope.MemberOne.uploadfile}"
 					width="300" height="400"></td>
 			</tr>
 
 
 		</c:if>
-		<c:if test="${empty requestScope.apple }">
+		<c:if test="${empty requestScope.MemberOne }">
 			<tr>
 				<td colspan="9">
 					<h3>로그인이 제대로 안된거 같습니다용</h3>

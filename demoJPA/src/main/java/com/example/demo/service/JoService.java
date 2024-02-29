@@ -1,28 +1,28 @@
 package com.example.demo.service;
 
-import java.util.List;
+import java.util.List; 
 
-import com.example.demo.domain.JoDTO; 
+import com.example.demo.entity.Jo; 
 
 
 public interface JoService {
 
 	// joCaptain
-	List<JoDTO> joCaptain();
-
-	// joList
-	List<JoDTO> joList();
+	List<Jo> joCaptain();
 
 	// joDetail
-	JoDTO joDetail(int jno);
+	Jo joDetail(int jno);
 
-	// joInsert
-	int joInsert(JoDTO dto);
-
-	// update
-	int joUpdate(JoDTO dto);
+	// JoInsert, JoUpdate
+	Jo save(Jo entity);
+	
+//	// joInsert
+//	int joInsert(Jo entity);
+//
+//	// update
+//	int joUpdate(Jo entity);
 
 	// delete
-	int joDelete(int jno);
+	void joDelete(int jno);
 
 }

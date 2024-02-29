@@ -51,6 +51,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 //=> BaseEntity -> Guestbook: 프로젝트실행, Table_guestbook 생성확인 (console창과 MySql에서) 
 //-> GuestbookRepository -> GuestbookService -> Controller, home 메뉴추가 -> Test
 
+// 0229
+// => Member
+
+
+
 
 @SpringBootApplication(exclude= {SecurityAutoConfiguration.class})
 @EnableJpaAuditing // BaseEntity 참고 : 자동감지 리스너를 작동시켜줌.

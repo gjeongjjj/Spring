@@ -1,67 +1,76 @@
 package com.example.demo.service;
 
-/*
- * import java.util.List;
- * 
- * import org.springframework.beans.factory.annotation.Autowired; import
- * org.springframework.stereotype.Service;
- * 
- * import com.example.demo.domain.MemberDTO; import
- * com.example.demo.repository.MemberRepository;
- * 
- * import mapperInterface.MemberMapper; import pageTest.SearchCriteria;
- * 
- * //** Service //=> 요청클래스 와 DAO클래스 사이의 연결(완충지대) 역할 //=> 요청클래스(컨트롤러) 와 DAO클래스
- * 사이에서 변경사항이 생기더라도 서로 영향 받지않도록해주는 역할 // 결합도는 낮추고, 응집도는 높인다
- * 
- * //** interface 자동완성 //=> Alt + Shift + T //=> 또는 마우스우클릭 PopUp Menu 의 Refactor
- * - Extract Interface...
- * 
- * //** Mybatis 적용 //=> CRUD 처리를 Mapper 를 이용 //=> DAO 대신 Mapper interface ->
- * ~Mapper.xml
- * 
- * //** Mybatis interface 방식으로 적용 //=> MemberDAO 대신 MemberMapper 사용 //=>
- * MemberMapper 의 인스턴스를 스프링이 생성해주고 이를 주입받아 실행함 //(스프링이 생성해주는 동일한 타입의 클래스는 JUnit
- * Test 로 확인가능, 추후 실습) //=> 단, 설정화일에 <mybatis-spring:scan
- * base-package="mapperInterface"/> 반드시 추가해야함 // MemberDAO의 Sql구문 처리를
- * mapperInterface 사용으로 MemberMapper 가 역할을 대신함
- * 
- * //=> SQL 구문 : xml 로작성 -> 이 화일을 Mapper 라 함 //=> Mapper 작성규칙 // ->
- * mapperInterface 와 패키지명, 화일명이 동일해야함 // -> 즉, Java interface, Mapper, Mapper의
- * namespace 값(패키지명, 화일명)이 모두 동일해야 함. // -> 그리고 해당 메서드는 Mapper의 xml 구문의 id 속성값으로
- * 찾음.
- * 
- * 
- * @Service public class MemberServiceImpl implements MemberService {
- * 
- * // ** 전역변수 정의 private final MemberRepository repository;
- * 
- * 
- * // selectJoList
- * 
- * @Override public List<Member> selectJoList(int jno) { return
- * repository.findAll(); }
- * 
- * // ** selectOne
- * 
- * @Override public MemberDTO selectOne(String id) { return
- * mapper.selectOne(id); }
- * 
- * // ** insert
- * 
- * @Override public int insert (MemberDTO dto) { return mapper.insert(dto); }
- * 
- * // ** update
- * 
- * @Override public int update (MemberDTO dto) { return mapper.update(dto); }
- * 
- * // ** passwordUpdate
- * 
- * @Override public int pwUpdate(MemberDTO dto) { return mapper.pwUpdate(dto); }
- * 
- * 
- * // ** delete
- * 
- * @Override public int delete(String id) { return mapper.delete(id); } } //
- * class
- */
+import java.util.List; 
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.domain.MemberDTO;
+import com.example.demo.entity.Member;
+import com.example.demo.repository.MemberRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class MemberServiceImpl implements MemberService {
+	
+	private final MemberRepository repository;
+	
+	// ** jno 별 Member 출력
+	// => JPARepository Method Naming 규약 
+	@Override
+	public List<Member> findByJno(int jno) {
+		return repository.findByJno(jno);
+	}
+	
+	// 2번
+	@Override
+	public void updatePassword1(String id, String password) {
+		repository.updatePassword1(id, password);
+	}
+	
+	// ** Join
+	@Override
+	public List<MemberDTO> findMemberJoin() {
+		return repository.findMemberJoin();
+	}
+	
+	
+	
+	
+	// ** selectList
+	@Override
+	public List<Member> selectList() {
+		return repository.findAll();
+	}
+	
+	// ** selectOne
+	@Override
+	public Member selectOne(String id) {
+		
+		Optional<Member> result = repository.findById(id);
+		if (result.isPresent()) return result.get(); 	//존재한다면 
+		else return null;
+		
+	}
+	
+	// ** insert , update
+	// 받는 타입을 Member로. repository에서 save메서드
+	@Override
+	public Member save (Member entity) {
+		return repository.save(entity);
+	}
+
+	// ** passwordUpdate
+	@Override
+	public Member pwUpdate(Member entity) {
+		return null;
+	}
+	
+	// ** delete
+	@Override
+	public void deleteById(String id) {
+		repository.deleteById(id);
+	}
+} // class

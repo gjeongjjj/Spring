@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import javax.persistence.Column;
+import javax.persistence.Column; 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -58,7 +58,7 @@ public class Member {
 	private double point;
 	private String birthday;
 	private String rid; // 추천인
-	private String uploadfile; // 테이블 보관용 (file_Name)
+	private String uploadfile; // 테이블 보관용 (file_Name) DB용
 	
 	@Transient // SQL 구문 처리시 제외시켜줌
 	private MultipartFile uploadfilef;

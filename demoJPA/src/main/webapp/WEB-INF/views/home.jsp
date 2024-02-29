@@ -43,6 +43,7 @@
 </c:if>
 <br> <hr>
 &nbsp;<a href="member/memberList">MList</a>&nbsp; 
+&nbsp;<a href="member/mjoinList">mJoinList</a>&nbsp;
 &nbsp;<a href="jo/joList">JList</a>&nbsp; 
 &nbsp;<a href="jo/joCaptain">JList+Captain</a>&nbsp; 
 <hr>
