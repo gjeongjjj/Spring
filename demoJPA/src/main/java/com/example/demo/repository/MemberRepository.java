@@ -177,7 +177,8 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 	List<MemberDTO> findMemberJoin();
 	
 	// 2.4) NativeQuery 을 조인해보자
-	
+	// 500 발생. 
+	// - DTO 직접 사용 오류
 	@Query(nativeQuery = true, value =
 			"SELECT com.example.demo.domain.MemberDTO(m.id, m.name, m.jno, j.jname, j.project) "
 			+ "FROM member m "
@@ -185,7 +186,7 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 			+ "ON m.jno=j.jno "
 			+ "order by m.jno")
 	List<MemberDTO> findMemberJoin2();
-
+	// 이거 실패
 	
 	
 	

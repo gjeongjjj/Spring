@@ -6,8 +6,8 @@ import com.example.demo.entity.Guestbook;
 
 //** interface JpaRepository<T, ID>
 //=> interface 계층도
-// Repository<T, ID> -> CrudRepository<T, ID> 
-//-> PagingAndSortingRepository<T, ID> -> JpaRepository<T, ID>
+// 		Repository<T, ID> -> CrudRepository<T, ID> 
+//		 -> PagingAndSortingRepository<T, ID> -> JpaRepository<T, ID>
 
 //=> CrudRepository<T, ID> : 기본기능만 사용하는 경우 상속받음
 //=> JpaRepository<T, ID> : JPA 관련기능 대부분 사용하는경우 상속받음
@@ -30,7 +30,8 @@ import com.example.demo.entity.Guestbook;
 //      있으면 삭제하고 void 로 정의되어 return값 없음. 
 
 //=> JpaRepository의 save()메서드 동작원리
-//    - 새로운 entity이면 persist() 를 아니면 merge()를 호출
+//    - 새로운 entity이면 EntityManager 의 persist() 를
+//    - 아니면 EntityMan  ager 의 merge를 호출. 
 
 
 public interface GuestbookRepository extends JpaRepository<Guestbook, Long> {
